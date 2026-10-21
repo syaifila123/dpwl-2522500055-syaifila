@@ -39,3 +39,24 @@ Pada tahap ini, dilakukan penambahan konfigurasi route pada aplikasi untuk mendu
 ### 3. Hasil Pengujian
 - **Pengujian Route:** Saat mengakses URL `admin/mobil/tambah`, `admin/mobil/ubah/BN1234XX`, maupun `admin/mobil/hapus/BN1234XX`, sistem menampilkan pesan *"Controller tidak ditemukan."*
 - **Kondisi:** Pesan tersebut merupakan kondisi yang diharapkan (*expected behavior*) karena `Mobil_controller.php` baru akan diimplementasikan pada Tahap C.
+
+---
+
+## Tahap C: Mengimplementasikan READ Data Kendaraan dengan MVC
+
+### 1. Deskripsi Perubahan
+Pada tahap ini, dilakukan implementasi operasi **READ** untuk membaca dan menampilkan daftar data kendaraan dari tabel `t_mobil` menggunakan arsitektur MVC (Model-View-Controller).
+
+### 2. Berkas yang Diubah / Ditambahkan
+- **`application/models/Mobil_model.php`** (Berkas Baru):  
+  Dibuat untuk menangani kueri ke basis data. Menambahkan method `getAll()` yang menjalankan SQL `SELECT` pada tabel `t_mobil` terurut berdasarkan `no_plat ASC`.
+- **`application/controllers/Mobil_controller.php`** (Berkas Baru):  
+  Dibuat untuk mengatur alur logika. Menambahkan method `index()` yang memuat helper autentikasi/flash, memanggil `Mobil_model->getAll()`, dan meneruskan datanya ke View.
+- **`application/views/admin/mobil_view.php`** (Berkas Baru):  
+  Dibuat untuk menampilkan antarmuka halaman admin/mobil. Berisi tabel HTML (menggunakan DataTables) yang menampilkan detail kendaraan (nomor plat, nama, kursi, bagasi, jenis, transmisi, tahun, harga, status, foto depan, serta tombol aksi CRUD).
+
+### 3. Hasil Pengujian
+- **Akses Halaman:** Saat membuka URL `admin/mobil` melalui browser, halaman *Manajemen Kendaraan* berhasil dimuat tanpa galat.
+- **Penyajian Data:** Data kendaraan dari tabel `t_mobil` tampil secara akurat pada tabel antarmuka sesuai dengan data di MySQL (phpMyAdmin).
+- **Tampilan Tabel Kosong:** Halaman tetap beroperasi dengan normal dan menampilkan pesan bahwa data belum tersedia jika tabel `t_mobil` dalam kondisi kosong.
+- **Keamanan & Integrasi Fitur:** Akses halaman terlindungi oleh autentikasi admin (`require_admin_login()`) dan tidak mengganggu fitur dari Pertemuan 04 (Manajemen Admin).
