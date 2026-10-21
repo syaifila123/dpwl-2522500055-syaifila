@@ -60,3 +60,42 @@ Pada tahap ini, dilakukan implementasi operasi **READ** untuk membaca dan menamp
 - **Penyajian Data:** Data kendaraan dari tabel `t_mobil` tampil secara akurat pada tabel antarmuka sesuai dengan data di MySQL (phpMyAdmin).
 - **Tampilan Tabel Kosong:** Halaman tetap beroperasi dengan normal dan menampilkan pesan bahwa data belum tersedia jika tabel `t_mobil` dalam kondisi kosong.
 - **Keamanan & Integrasi Fitur:** Akses halaman terlindungi oleh autentikasi admin (`require_admin_login()`) dan tidak mengganggu fitur dari Pertemuan 04 (Manajemen Admin).
+
+# Dokumentasi Pertemuan 05: Pengelolaan Data Master Objek Bisnis dengan MVC (Bagian INSERT/CREATE)
+
+## Deskripsi Singkat
+Pada tahap ini, dilakukan implementasi fitur **INSERT (Tambah Data Kendaraan)** pada aplikasi rental mobil berbasis MVC tanpa framework. Fitur ini memungkinkan admin untuk menambahkan data kendaraan baru beserta unggahan foto kendaraan ke dalam basis data.
+
+---
+
+## Perubahan Berkas (Files Changed)
+1. **`application/models/Mobil_model.php`**
+   - Menambahkan method `create(array $data)` untuk menyimpan record data kendaraan baru ke dalam tabel `t_mobil` menggunakan *prepared statement* (`bind_param`).
+
+2. **`application/controllers/Mobil_controller.php`**
+   - Menambahkan method `tambah()` untuk menangani *request* GET (menampilkan form) dan POST (memproses data input).
+   - Menambahkan method pendukung `validateMobilInput()` untuk validasi server-side.
+   - Menambahkan method `uploadFoto()` untuk menangani proses unggah foto (JPEG, PNG, WEBP max 5MB).
+   - Menambahkan method `hapusFotoBaru()` untuk membersihkan file foto baru jika proses simpan data ke basis data gagal.
+   - Mengimplementasikan pola **Post/Redirect/Get (PRG)** menggunakan `set_flash_message()` saat penyimpanan berhasil.
+
+3. **`application/views/admin/mobil_view.php`**
+   - Menambahkan formulir input data kendaraan (Nomor Plat, Nama Mobil, Jumlah Kursi, Bagasi, Jenis Mobil, Transmisi, Tahun, Harga, Catatan, Status, dan Upload Foto).
+   - Menambahkan JavaScript untuk fitur *live preview* gambar saat memilih file foto.
+
+---
+
+## Alur Implementasi INSERT
+1. **Pemeriksaan Hak Akses & Metode HTTP:** Method `tambah()` memastikan admin telah login (`require_admin_login()`).
+2. **Validasi Input:** Memeriksa kelengkapan data, tipe data, rentang nilai, serta batas karakter sesuai skema basis data.
+3. **Pengolahan Foto:** Memproses unggahan foto depan, belakang, dan interior. Jika valid, file disimpan ke direktori `uploads/mobil/`.
+4. **Penyimpanan Data:** Memanggil `Mobil_model->create()` dengan prepared statement. Jika gagal, file foto yang sempat terunggah dibersihkan menggunakan `hapusFotoBaru()`.
+5. **Redirect (PRG):** Mengalihkan halaman kembali ke `admin/mobil` dengan pesan sukses melalui flash message.
+
+---
+
+## Hasil Pengujian Aktual (Testing)
+- **Pengujian INSERT Berhasil:** Mencoba mengisi seluruh form kendaraan beserta foto, data berhasil tersimpan ke tabel `t_mobil` dan muncul di tabel daftar kendaraan.
+- **Pengujian READ:** Memastikan data yang baru ditambahkan muncul dengan benar di daftar tabel tanpa merusak data lama.
+- **Pengujian Validasi:** Memasukkan nilai yang salah (misal: jumlah kursi > 25 atau mengosongkan kolom wajib). Aplikasi berhasil menolak data dan menampilkan alert pesan kesalahan.
+- **Pengujian Upload Foto:** Foto berhasil terunggah dan ditampilkan pratinjaunya di tabel daftar kendaraan.
