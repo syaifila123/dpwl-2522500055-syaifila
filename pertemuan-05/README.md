@@ -168,3 +168,66 @@ Pada Tahap E, implementasi fokus pada operasi **UPDATE** untuk mengubah data ken
   - `application/controllers/Mobil_controller.php`
   - `application/views/admin/mobil_view.php`
   - `pertemuan-05/README.md`
+
+  # Dokumentasi Praktikum Pertemuan 05 (P5) - Tahap F
+**Mata Kuliah:** Desain dan Pemrograman Web Lanjutan (IS203)[cite: 1]  
+**Topik:** Mengimplementasikan DELETE Data Kendaraan dengan MVC[cite: 2, 26]  
+
+---
+
+## 1. Ringkasan Perubahan Berkas
+
+Pada Tahap F, implementasi berfokus pada operasi **DELETE** untuk menghapus data kendaraan dari basis data (`t_mobil`) sekaligus membersihkan berkas foto terkait yang tersimpan di server[cite: 26, 27]. Berkas yang dimodifikasi meliputi:
+
+1. **`application/models/Mobil_model.php`**
+   - Menambahkan method `delete(string $noPlat)` untuk menghapus record kendaraan berdasarkan nomor plat menggunakan *prepared statement*[cite: 26].
+
+2. **`application/controllers/Mobil_controller.php`**
+   - Menambahkan method `hapus(string $noPlat)` untuk memproses permintaan penghapusan data[cite: 26].
+   - Menambahkan validasi metode HTTP agar proses penghapusan hanya menerima metode **POST**[cite: 26].
+   - Menghubungkan proses penghapusan data di basis data dengan pembersihan foto terkait di folder `uploads/mobil/` menggunakan `hapusFotoBaru()`[cite: 27].
+   - Menerapkan *flash message* untuk menyampaikan umpan balik hasil penghapusan kepada pengguna[cite: 27].
+
+3. **`application/views/admin/mobil_view.php`**
+   - Menyiapkan tombol **Hapus** pada tabel daftar kendaraan yang terhubung dengan formulir metode POST dan konfirmasi JavaScript (`onsubmit="return confirm(...)`)[cite: 9, 43].
+
+---
+
+## 2. Alur Kerja Fitur DELETE
+
+1. **Konfirmasi & Pengiriman Permintaan:**
+   - Pengguna mengklik tombol **Hapus** pada baris kendaraan yang dipilih di tabel[cite: 9, 27, 43].
+   - Sistem menampilkan dialog konfirmasi JavaScript[cite: 9, 27, 43]. Jika disetujui, formulir dikirimkan menggunakan metode POST ke URL `admin/mobil/hapus/{no_plat}`[cite: 9, 26, 43].
+2. **Pemeriksaan Data & Keamanan:**
+   - Controller memastikan pengguna sudah login sebagai admin dan mengecek bahwa metode request adalah POST[cite: 26].
+   - Controller mengambil data kendaraan lama menggunakan `findByNoPlat()` untuk mencatat nama berkas foto sebelum record dihapus[cite: 26, 27].
+3. **Penghapusan Database & Berkas Foto:**
+   - Controller memanggil `delete()` pada Model[cite: 27].
+   - Jika penghapusan pada basis data **berhasil**, Controller menghapus berkas foto terkait (foto depan, belakang, dan interior) dari folder `uploads/mobil/`[cite: 27].
+   - Jika penghapusan pada basis data **gagal**, berkas foto tetap dipertahankan[cite: 27].
+4. **Redireksi & Pesan Umpan Balik:**
+   - Controller menetapkan pesan kilat (*flash message*) sukses/gagal lalu mengalihkan halaman kembali ke `admin/mobil` (PRG)[cite: 27].
+
+---
+
+## 3. Hasil Pengujian Aktual
+
+- **Pengujian Penghapusan Berhasil:**
+  - [x] Berhasil menghapus data kendaraan dari tabel `t_mobil` dan data hilang dari antarmuka tabel[cite: 27].
+  - [x] Berkas foto depan, belakang, dan interior terkait terhapus secara bersih dari folder `uploads/mobil/`[cite: 27].
+- **Pengujian Metode Akses & Keamanan:**
+  - [x] Mencoba mengakses URL `admin/mobil/hapus/{no_plat}` secara langsung melalui metode GET ditolak dengan respons kode status 405 (Method Not Allowed)[cite: 26, 27].
+  - [x] Menghapus data dengan nomor plat yang tidak ditemukan menampilkan pesan peringatan "Data kendaraan tidak ditemukan."[cite: 27].
+- **Regresi Fitur:**
+  - [x] Seluruh fitur CRUD yang dibangun sebelumnya (READ, INSERT, UPDATE) tetap berjalan normal[cite: 27].
+
+---
+
+## 4. Riwayat Git (Commit Message)
+
+- **Commit Message:** `P5: Mengimplementasikan DELETE data kendaraan dengan MVC`[cite: 28]
+- **Berkas Terdampak:**
+  - `application/models/Mobil_model.php`[cite: 28]
+  - `application/controllers/Mobil_controller.php`[cite: 28]
+  - `application/views/admin/mobil_view.php`[cite: 28]
+  - `pertemuan-05/README.md`[cite: 28]
