@@ -61,7 +61,7 @@ Pada tahap ini, dilakukan implementasi operasi **READ** untuk membaca dan menamp
 - **Tampilan Tabel Kosong:** Halaman tetap beroperasi dengan normal dan menampilkan pesan bahwa data belum tersedia jika tabel `t_mobil` dalam kondisi kosong.
 - **Keamanan & Integrasi Fitur:** Akses halaman terlindungi oleh autentikasi admin (`require_admin_login()`) dan tidak mengganggu fitur dari Pertemuan 04 (Manajemen Admin).
 
-# Dokumentasi Pertemuan 05: Pengelolaan Data Master Objek Bisnis dengan MVC (Bagian INSERT/CREATE)
+# Dokumentasi Pertemuan 05 tahap D : Pengelolaan Data Master Objek Bisnis dengan MVC (Bagian INSERT/CREATE)
 
 ## Deskripsi Singkat
 Pada tahap ini, dilakukan implementasi fitur **INSERT (Tambah Data Kendaraan)** pada aplikasi rental mobil berbasis MVC tanpa framework. Fitur ini memungkinkan admin untuk menambahkan data kendaraan baru beserta unggahan foto kendaraan ke dalam basis data.
@@ -99,3 +99,72 @@ Pada tahap ini, dilakukan implementasi fitur **INSERT (Tambah Data Kendaraan)** 
 - **Pengujian READ:** Memastikan data yang baru ditambahkan muncul dengan benar di daftar tabel tanpa merusak data lama.
 - **Pengujian Validasi:** Memasukkan nilai yang salah (misal: jumlah kursi > 25 atau mengosongkan kolom wajib). Aplikasi berhasil menolak data dan menampilkan alert pesan kesalahan.
 - **Pengujian Upload Foto:** Foto berhasil terunggah dan ditampilkan pratinjaunya di tabel daftar kendaraan.
+
+# Dokumentasi Praktikum Pertemuan 05 (P5) - Tahap E
+**Mata Kuliah:** Desain dan Pemrograman Web Lanjutan (IS203)  
+**Topik:** Mengimplementasikan UPDATE Data Kendaraan dengan MVC  
+
+---
+
+## 1. Ringkasan Perubahan Berkas
+
+Pada Tahap E, implementasi fokus pada operasi **UPDATE** untuk mengubah data kendaraan yang tersimpan pada basis data (`t_mobil`). Berkas yang dimodifikasi antara lain:
+
+1. **`application/models/Mobil_model.php`**
+   - Menambahkan method `findByNoPlat(string $noPlat)` untuk mengambil data kendaraan berdasarkan nomor plat sebagai *primary key*.
+   - Menambahkan method `update(string $noPlat, array $data)` untuk memperbarui record kendaraan di tabel `t_mobil` menggunakan *prepared statement*.
+
+2. **`application/controllers/Mobil_controller.php`**
+   - Menambahkan method `ubah(string $noPlat)` untuk menangani permintaan GET (menampilkan formulir ubah) dan POST (memproses pembaruan data).
+   - Memanipulasi pemrosesan foto: mempertahankan foto lama jika tidak diunggah foto baru, serta menghapus foto lama secara otomatis jika diganti dengan berkas foto baru yang valid.
+   - Memanfaatkan method `validateMobilInput()` untuk menjaga konsistensi aturan validasi input.
+   - Menerapkan pola *Post/Redirect/Get* (PRG) dan pesan kilat (*flash message*) saat pembaruan berhasil.
+
+3. **`application/views/admin/mobil_view.php`**
+   - Memastikan formulir mendukung mode `ubah` dengan mengisi nilai awal dari `$mobil_dipilih`.
+   - Mengatur elemen input `no_plat` dengan atribut `readonly` agar nomor plat tidak dapat diubah (sebagai kunci identitas data).
+   - Menampilkan pratinjau foto yang saat ini tersimpan.
+
+---
+
+## 2. Alur Kerja Fitur UPDATE
+
+1. **Akses Formulir Ubah (GET):**
+   - Pengguna mengklik tombol **Ubah** pada daftar kendaraan.
+   - Controller menerima parameter `no_plat`, memanggil `findByNoPlat()` dari Model, lalu menampilkan formulir yang sudah terisi data kendaraan terpilih.
+2. **Validasi & Pemrosesan Data (POST):**
+   - Input dari formulir diproses dan divalidasi oleh `validateMobilInput()`.
+   - Jika validasi gagal, halaman ditampilkan kembali beserta pesan kesalahan tanpa mengubah data di database.
+3. **Pengelolaan Foto:**
+   - Jika pengguna mengunggah foto baru, sistem menyimpan berkas baru dan mencatat foto lama untuk dihapus setelah transaksi database berhasil.
+   - Jika pengguna tidak mengunggah foto baru, nama berkas foto lama tetap dipertahankan.
+4. **Pembaruan Database & Redireksi:**
+   - Model menjalankan instruksi SQL `UPDATE`.
+   - Jika berhasil, foto lama yang telah diganti akan dihapus dari folder `uploads/mobil/`, *flash message* sukses diset, dan halaman dialihkan kembali ke `admin/mobil` (PRG).
+
+---
+
+## 3. Hasil Pengujian Aktual
+
+- **Pengujian Ubah Data Teks:**
+  - [x] Berhasil mengubah nama kendaraan, harga sewa, dan catatan unit. Data pada daftar kendaraan dan database phpMyAdmin terbarui secara konsisten.
+- **Pengujian Tanpa Mengganti Foto:**
+  - [x] Memperbarui data tanpa memilih berkas foto baru tetap mempertahankan foto lama yang tersimpan sebelumnya.
+- **Pengujian Penggantian Foto:**
+  - [x] Berhasil mengganti foto depan/belakang/interior. Berkas foto baru berhasil tersimpan di folder `uploads/mobil/` dan foto lama terhapus secara bersih.
+- **Pengujian Validasi & Keamanan:**
+  - [x] Pengisian input tidak valid (misal: jumlah kursi > 25 atau harga negatif) menampilkan pesan peringatan dan pembaruan dibatalkan.
+  - [x] Mengakses nomor plat yang tidak ada mengarahkan kembali ke halaman utama dengan pesan "Data kendaraan tidak ditemukan."
+- **Regresi Fitur:**
+  - [x] Fitur READ (daftar kendaraan) dan INSERT (tambah kendaraan) dari tahap sebelumnya tetap berfungsi normal tanpa kendala.
+
+---
+
+## 4. Riwayat Git (Commit Message)
+
+- **Commit Message:** `P5: Mengimplementasikan UPDATE data kendaraan dengan MVC`
+- **Berkas Terdampak:**
+  - `application/models/Mobil_model.php`
+  - `application/controllers/Mobil_controller.php`
+  - `application/views/admin/mobil_view.php`
+  - `pertemuan-05/README.md`
