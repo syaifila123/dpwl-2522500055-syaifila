@@ -124,3 +124,44 @@ Struktur folder aset utama pada proyek telah tersedia. Pemeriksaan ketersediaan 
 - [x] `Katalog_controller.php`
 - [x] View Katalog (`header.php`, `navbar.php`, `footer.php`, `index.php`)
 - [x] Pengujian Navigasi dan Tampilan Katalog
+
+# Dokumentasi Pengembangan P6 - Tahap C: Detail Kendaraan Berbasis MVC
+
+## 1. Deskripsi Tahap
+Pada tahap ini, dilakukan implementasi fitur detail kendaraan berbasis MVC (Model-View-Controller). Fitur ini memungkinkan pengguna untuk melihat informasi lengkap spesifikasi kendaraan, foto utama beserta galeri thumbnail (foto depan, belakang, dan interior), catatan unit/deskripsi, serta status ketersediaan unit.
+
+---
+
+## 2. Berkas dan Komponen yang Ditambahkan / Diubah
+- **`application/config/routes.php`** (Diubah): Menambahkan route URL dinamis untuk detail kendaraan.
+- **`application/controllers/Katalog_controller.php`** (Diubah): Menambahkan method `detail(string $noPlat)` untuk menangani permintaan detail kendaraan berdasarkan nomor plat.
+- **`application/views/katalog/detail.php`** (Ditambahkan): Membuat tampilan halaman detail kendaraan beserta skrip interaktif galeri foto/thumbnail.
+
+---
+
+## 3. Rincian Perubahan dan Fitur yang Diimplementasikan
+1. **Routing Detail Kendaraan (`routes.php`)**:
+   - Menambahkan rute `$route['katalog/detail/(:any)'] = 'Katalog_controller/detail/$1';` untuk memetakan URL ke method `detail()`.
+2. **Controller (`Katalog_controller.php`)**:
+   - Memanggil method `findByNoPlat($noPlat)` pada `Mobil_model`.
+   - Mengembalikan respon HTTP 404 (`Kendaraan tidak ditemukan.`) jika data kendaraan tidak ditemukan pada database.
+   - Mengirimkan data `$mobil` ke view `katalog/detail.php`.
+3. **View Detail (`application/views/katalog/detail.php`)**:
+   - Menampilkan detail informasi kendaraan: Nama, Harga/hari, Jenis, Tahun, Transmisi, Kapasitas (kursi & bagasi), Status ketersediaan, dan Deskripsi (`cttn_unit`).
+   - Menampilkan galeri foto interaktif (`ft_depan`, `ft_blkg`, `ft_interior`) dengan navigasi panah (sebelumnya/berikutnya) dan thumbnail menggunakan JavaScript client-side.
+
+---
+
+## 4. Langkah Pengujian
+1. Membuka halaman katalog kendaraan melalui URL: `http://localhost/dpwl-[NIM]/index.php/katalog`.
+2. Memilih salah satu kendaraan lalu mengklik foto atau judul kendaraan untuk menuju ke detail (misal: `http://localhost/dpwl-[NIM]/index.php/katalog/detail/B%201173%20HFF`).
+3. Menguji navigasi galeri foto dengan mengklik thumbnail serta tombol panah kiri dan kanan.
+4. Menguji akses URL dengan nomor plat yang tidak terdaftar di database (misal: `http://localhost/dpwl-[NIM]/index.php/katalog/detail/PLATNEKAT`) untuk memastikan penanganan galat 404 berjalan dengan benar.
+
+---
+
+## 5. Hasil Aktual Pengujian & Status Fitur
+- **Tampilan Detail Kendaraan**: Berhasil menampilkan seluruh informasi kendaraan secara akurat sesuai data di basis data.
+- **Galeri Foto**: Berhasil memuat foto utama dan berganti secara interaktif saat thumbnail atau tombol navigasi foto diklik.
+- **Penanganan Galat (404)**: Berhasil menampilkan pesan galat 404 saat nomor plat tidak ditemukan pada sistem.
+- **Status Fitur**: **BERHASIL DIUJI (SUCCESS)**.
