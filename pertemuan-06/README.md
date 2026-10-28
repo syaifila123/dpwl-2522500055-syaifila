@@ -2,13 +2,11 @@
 # README P6 — Tahap A: Persiapan Aset Zay Shop
 
 ## 1. Tujuan
-
 Tahap A bertujuan memeriksa struktur template Zay Shop, mengidentifikasi komponen halaman yang akan digunakan, menyiapkan aset pada workspace aplikasi DPWL, serta mencatat jalur aset yang perlu disesuaikan saat integrasi ke dalam arsitektur MVC.
 
 Pengembangan P6 melanjutkan aplikasi dari P5. Oleh karena itu, berkas dan fitur P5 yang masih diperlukan tetap dipertahankan.
 
 ## 2. Pemeriksaan Struktur Template Zay Shop
-
 Template Zay Shop digunakan sebagai referensi antarmuka untuk pengembangan katalog kendaraan.
 
 Berkas HTML yang diperiksa sebagai sumber template meliputi:
@@ -20,7 +18,6 @@ Berkas HTML yang diperiksa sebagai sumber template meliputi:
 Template juga menyediakan `about.html` dan `contact.html`, yang tidak perlu diintegrasikan apabila tidak dibutuhkan dalam ruang lingkup praktikum.
 
 ## 3. Identifikasi Komponen Halaman
-
 Komponen template yang menjadi perhatian dalam persiapan integrasi meliputi:
 
 - **Header:** bagian atas halaman dan pemanggilan stylesheet serta ikon.
@@ -32,7 +29,6 @@ Komponen template yang menjadi perhatian dalam persiapan integrasi meliputi:
 Konten demonstrasi dari template perlu diidentifikasi agar dapat disesuaikan dengan kebutuhan aplikasi rental kendaraan pada tahap integrasi.
 
 ## 4. Pemeriksaan Struktur Folder Aset
-
 Berdasarkan pemeriksaan struktur folder pada ZIP proyek, folder `assets/zay/` tersedia dengan susunan berikut:
 
 ```text
@@ -54,7 +50,6 @@ Fungsi setiap folder:
 Folder aset yang sudah tersedia dipertahankan agar tidak mengganggu aset dan fitur yang telah digunakan pada P5.
 
 ## 5. Pemeriksaan dan Pencatatan Jalur Aset
-
 Jalur aset pada HTML asli perlu dibandingkan dengan lokasi file di workspace aplikasi.
 
 Contoh referensi aset pada HTML asli:
@@ -74,7 +69,6 @@ Tabel tersebut menunjukkan lokasi aset yang perlu diperiksa. Ketersediaan setiap
 Penyesuaian URL dilakukan saat integrasi View dengan mengikuti mekanisme URL yang tersedia pada aplikasi DPWL. Struktur direktori tidak perlu diubah hanya untuk mempertahankan jalur relatif bawaan template.
 
 ## 6. Hasil Pemeriksaan Tahap A
-
 Berdasarkan pemeriksaan struktur proyek ZIP:
 
 1. Folder utama `assets/zay/` tersedia.
@@ -85,7 +79,48 @@ Berdasarkan pemeriksaan struktur proyek ZIP:
 6. Keberhasilan pemuatan aset, tampilan, dan navigasi melalui aplikasi MVC belum dinyatakan berhasil sebelum pengujian dilakukan setelah integrasi.
 
 ## 7. Kesimpulan
-
 Tahap A berfokus pada pemeriksaan template Zay Shop, identifikasi komponen halaman, pemeriksaan struktur aset, serta pencatatan kebutuhan penyesuaian jalur file.
 
 Struktur folder aset utama pada proyek telah tersedia. Pemeriksaan ketersediaan file yang dirujuk dan pencatatan hasil aktual perlu diselesaikan sebelum melanjutkan ke tahap integrasi berikutnya.
+
+
+## B. Mengimplementasikan Katalog Kendaraan Berbasis MVC
+
+### 1. Komponen yang Ditambahkan / Diubah
+- **Model**: `application/models/Mobil_model.php`
+  - Menambahkan method `getKatalog()` untuk mengambil data seluruh kendaraan dari tabel `t_mobil` dengan urutan nama mobil secara *ascending*.
+- **Route**: `application/config/routes.php`
+  - Menambahkan pemetaan route `$route['katalog'] = 'Katalog_controller/index';`.
+- **Controller**: `application/controllers/Katalog_controller.php`
+  - Membuat controller baru `Katalog_controller` yang memanggil `Mobil_model` dan mengirimkan data katalog kendaraan ke view.
+- **View**:
+  - `application/views/katalog/header.php`: Menyimpan komponen `<head>` dan *stylesheet* pendukung.
+  - `application/views/katalog/navbar.php`: Menyimpan komponen navigasi antarmuka pengguna.
+  - `application/views/katalog/footer.php`: Menyimpan bagian footer dan script JavaScript.
+  - `application/views/katalog/index.php`: Menyajikan halaman utama katalog yang menampilkan daftar kendaraan dalam bentuk kartu (*cards*).
+
+---
+
+### 2. Langkah Pengujian
+1. Membuka peramban dan mengkases URL: `http://localhost/dpwl-2522500055/index.php/katalog`.
+2. Memeriksa ketersediaan dan kesesuaian data kendaraan yang muncul pada katalog (Nama mobil, Jenis, Tahun, Transmisi, Kapasitas, Harga sewa/hari, serta Status ketersediaan unit).
+3. Memastikan tampilan tata letak berbasis Bootstrap dan aset CSS/JS termuat dengan baik tanpa ada *broken layout*.
+
+---
+
+### 3. Hasil Pengujian Aktual
+- **Akses Halaman**: Halaman katalog berhasil dimuat tanpa galat.
+- **Pemuatan Data**: Data kendaraan dari basis data berhasil diambil dan ditampilkan secara dinamis melalui loop `foreach` pada View.
+- **Penanganan Status Unit**: Badges status (`Tersedia`, `Sedang disewa`, atau `Tidak tersedia`) dan tombol aksi ditampilkan sesuai dengan kondisi `status_unit` kendaraan di basis data.
+- **Masalah & Perbaikan**: 
+  - *Masalah*: Sempat terjadi pesan galat *"View tidak ditemukan."* saat mengakses halaman katalog.
+  - *Perbaikan*: Menyelaraskan struktur direktori view agar folder `katalog/` beserta berkas `header.php`, `navbar.php`, `footer.php`, dan `index.php` berada tepat di dalam `application/views/`.
+
+---
+
+### 4. Status Fitur
+- [x] Method `getKatalog()` pada `Mobil_model.php`
+- [x] Route `/katalog`
+- [x] `Katalog_controller.php`
+- [x] View Katalog (`header.php`, `navbar.php`, `footer.php`, `index.php`)
+- [x] Pengujian Navigasi dan Tampilan Katalog
