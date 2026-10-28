@@ -1,18 +1,18 @@
 <?php
 
 $route = [];
-$route['default_controller'] = 'home';
-$route['info/(:any)'] = 'home/info/$1';
-$route['default_controller'] = 'home';
-$route['info/(:any)'] = 'home/info/$1';
-// Route autentikasi P3 
-$route['login']
-  = 'auth/login';
-$route['auth/login']  = 'auth/login';
+// $route['default_controller'] = 'Home'; // dimatikan pada P6 karena penulisan index.php dihilangkan pada URL aplikasi
+$route['default_controller'] = 'Katalog_controller'; // karena penulisan index.php dihilangkan pada URL aplikasi 
+// $route['info/(:any)'] = 'home/info/$1';
+// $route['default_controller'] = 'home';
+// $route['info/(:any)'] = 'home/info/$1';
+// Route autentikasi P3
+$route['login'] = 'auth/login';
+$route['auth/login'] = 'auth/login';
 $route['auth/logout'] = 'auth/logout';
-// Route halaman administrasi 
-$route['admin']
-  = 'admin/index';
+
+// Route halaman administrasi
+$route['admin'] = 'admin/index';
 // P4: BARU - semua proses CRUD admin dipindahkan di bawah /admin/madmin. 
 $route['admin/madmin'] = 'madmin_controller/index';
 $route['admin/madmin/tambah'] = 'madmin_controller/tambah';

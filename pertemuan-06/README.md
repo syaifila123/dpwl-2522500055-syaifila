@@ -318,3 +318,29 @@ Pada tahap ini, dilakukan implementasi fitur kelola profil dan pembaruan data pe
 - **Pembaruan Data & Unggah Berkas**: Data profil berhasil diperbarui pada database `t_penyewa`, serta berkas foto KTP dan SIM A tersimpan rapi di direktori `uploads/penyewa/`[cite: 42, 43].
 - **Fitur Ganti Password**: Berhasil memverifikasi password lama dan meng-hash password baru menggunakan `password_hash()`[cite: 41, 43].
 - **Status Fitur**: **BERHASIL DIUJI (SUCCESS)**.
+
+# Dokumentasi Tahap G: Menghilangkan index.php dari URL (URL Rewriting)
+
+## 1. Deskripsi Tahap G
+Tahap G bertujuan untuk meningkatkan kenyamanan navigasi, keamanan, dan estetika struktur URL (*clean URL*) pada aplikasi web persewaan kendaraan dengan menghilangkan penulisan `index.php`. Penyesuaian dilakukan pada konfigurasi server Apache (`.htaccess`), berkas pemroses utama (`index.php`), pustaka pembantu URL (`url_helper.php`), serta pemetaan rute aplikasi (`routes.php`).
+
+---
+
+## 2. Rincian Langkah Implementasi
+
+### G.1 Konfigurasi Berkas `.htaccess`
+Membuat berkas `.htaccess` pada direktori utama (*root*) proyek untuk mengalihkan seluruh permintaan URL ke `index.php` tanpa mengubah struktur tautan pada *browser*:
+
+---
+
+### Hasil Pengujian URL (Tahap G)
+
+| No. | Fitur / Skenario | URL Sebelum Tahap G | URL Setelah Tahap G | Status |
+| :---: | :--- | :--- | :--- | :---: |
+| 1 | Halaman Utama / Beranda | `http://localhost/dpwl-2522500055/index.php` | `http://localhost/dpwl-2522500055/` | **Berhasil** |
+| 2 | Katalog Kendaraan | `http://localhost/dpwl-2522500055/index.php/katalog` | `http://localhost/dpwl-2522500055/katalog` | **Berhasil** |
+| 3 | Detail Kendaraan | `http://localhost/dpwl-2522500055/index.php/katalog/detail/1` | `http://localhost/dpwl-2522500055/katalog/detail/1` | **Berhasil** |
+| 4 | Registrasi Penyewa | `http://localhost/dpwl-2522500055/index.php/auth/register` | `http://localhost/dpwl-2522500055/auth/register` | **Berhasil** |
+| 5 | Login Penyewa | `http://localhost/dpwl-2522500055/index.php/auth/login-penyewa` | `http://localhost/dpwl-2522500055/auth/login-penyewa` | **Berhasil** |
+| 6 | Halaman Profil Penyewa | `http://localhost/dpwl-2522500055/index.php/penyewa/profil` | `http://localhost/dpwl-2522500055/penyewa/profil` | **Berhasil** |
+| 7 | Logout Penyewa | `http://localhost/dpwl-2522500055/index.php/auth/logout-penyewa` | `http://localhost/dpwl-2522500055/auth/logout-penyewa` | **Berhasil** |
