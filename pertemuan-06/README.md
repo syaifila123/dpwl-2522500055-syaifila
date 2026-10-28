@@ -215,3 +215,54 @@ Pada tahap ini, dilakukan implementasi fitur registrasi akun penyewa (pelanggan)
 - **Penyimpanan Data**: Berhasil menyimpan data akun penyewa baru ke dalam database `t_penyewa` dengan password yang tersimpan dalam bentuk hash terenkripsi.
 - **Pencegahan Duplikasi**: Berhasil mendeteksi username yang telah terdaftar dan menampilkan pesan galat "Username sudah digunakan."
 - **Status Fitur**: **BERHASIL DIUJI (SUCCESS)**.
+
+# Dokumentasi Pengembangan P6 - Tahap E: Login, Sesi, dan Logout Penyewa
+
+## 1. Deskripsi Tahap
+Pada tahap ini, dilakukan implementasi fitur login, pengelolaan sesi, dan logout untuk akun penyewa (pelanggan). Fitur ini memungkinkan penyewa yang telah terdaftar untuk masuk ke sistem, menyimpan status autentikasi dalam sesi peramban, dan keluar dari akun secara aman.
+
+---
+
+## 2. Berkas dan Komponen yang Ditambahkan / Diubah
+- **`application/config/routes.php`** (Diubah): Menambahkan route untuk URL login (`auth/login-penyewa`) dan logout (`auth/logout-penyewa`).
+- **`application/models/Penyewa_model.php`** (Diubah): Menambahkan method `findForLogin($userPlg)` untuk mengambil data kredensial penyewa dari basis data.
+- **`application/controllers/Auth.php`** (Diubah): Menambahkan method `loginPenyewa()` untuk menangani otentikasi & pembuatan sesi penyewa, serta `logoutPenyewa()` untuk menghapus sesi.
+- **`application/views/auth/login_penyewa.php`** (Ditambahkan): Membuat tampilan formulir login akun penyewa.
+- **`application/views/katalog/navbar.php`** (Diubah): Menyesuaikan tampilan navigasi header agar menampilkan tombol Logout dan Ikon Profil jika penyewa dalam keadaan login.
+
+---
+
+## 3. Rincian Perubahan dan Fitur yang Diimplementasikan
+1. **Routing Login & Logout (`routes.php`)**:
+   - Menambahkan rute `$route['auth/login-penyewa'] = 'Auth/loginPenyewa';`.
+   - Menambahkan rute `$route['auth/logout-penyewa'] = 'Auth/logoutPenyewa';`.
+2. **Model Penyewa (`Penyewa_model.php`)**:
+   - Method `findForLogin($userPlg)`: Memeriksa dan mengambil kolom `user_plg`, `sandi`, dan `nm_lngkp` pada tabel `t_penyewa` berdasarkan username.
+3. **Controller Autentikasi (`Auth.php`)**:
+   - Method `loginPenyewa()`:
+     - Mengvalidasi input username dan password dari *form*.
+     - Verifikasi kata sandi terenkripsi menggunakan `password_verify()`.
+     - Mengamankan ID sesi menggunakan `session_regenerate_id(true)`.
+     - Menyimpan identitas penyewa pada `$_SESSION['penyewa_user_plg']` dan menyiapkan *flash message* ucapan selamat datang.
+   - Method `logoutPenyewa()`:
+     - Menghapus variabel sesi penyewa (`unset($_SESSION['penyewa_user_plg'])`).
+     - Menggenerasi ulang ID sesi demi keamanan dan me-redirect pengguna kembali ke halaman katalog dengan notifikasi logout.
+4. **View Login (`application/views/auth/login_penyewa.php`)**:
+   - Formulir login responsif berbasis layout Zay Shop dengan *input sanitization* demi keamanan.
+
+---
+
+## 4. Langkah Pengujian
+1. Membuka halaman login penyewa melalui menu navigasi atau URL: `http://localhost/dpwl-[NIM]/index.php/auth/login-penyewa`.
+2. **Pengujian Login Gagal**: Mengisikan kombinasi username atau password yang salah, lalu memastikan muncul pesan kesalahan "Username atau password tidak sesuai."
+3. **Pengujian Login Berhasil**: Mengisikan username dan password akun penyewa yang telah terdaftar pada Tahap D.
+4. **Pengujian Sesi & Navigasi**: Memastikan pengguna di-redirect ke halaman katalog, notifikasi ucapan selamat datang muncul, dan menu navigasi berubah (menampilkan tombol **Logout** & **Ikon Profil**).
+5. **Pengujian Logout**: Mengklik tombol **Logout** pada navbar dan memastikan sesi telah dihapus serta navigasi kembali ke status belum login.
+
+---
+
+## 5. Hasil Aktual Pengujian & Status Fitur
+- **Proses Autentikasi**: Berhasil memverifikasi kredensial akun penyewa menggunakan hash `password_verify()`.
+- **Manajemen Sesi**: Sesi penyewa tersimpan dengan aman pada `$_SESSION['penyewa_user_plg']` dan navigasi berubah secara dinamis sesuai status autentikasi.
+- **Proses Logout**: Berhasil menghapus sesi penyewa dan mengembalikan tampilan navigasi utama ke kondisi semula.
+- **Status Fitur**: **BERHASIL DIUJI (SUCCESS)**.
