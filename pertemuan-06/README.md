@@ -165,3 +165,53 @@ Pada tahap ini, dilakukan implementasi fitur detail kendaraan berbasis MVC (Mode
 - **Galeri Foto**: Berhasil memuat foto utama dan berganti secara interaktif saat thumbnail atau tombol navigasi foto diklik.
 - **Penanganan Galat (404)**: Berhasil menampilkan pesan galat 404 saat nomor plat tidak ditemukan pada sistem.
 - **Status Fitur**: **BERHASIL DIUJI (SUCCESS)**.
+
+# Dokumentasi Pengembangan P6 - Tahap D: Registrasi Akun Penyewa
+
+## 1. Deskripsi Tahap
+Pada tahap ini, dilakukan implementasi fitur registrasi akun penyewa (pelanggan). Fitur ini memungkinkan pengguna baru untuk mendaftarkan akun penyewa dengan mengisikan data identitas diri yang diperlukan ke dalam tabel `t_penyewa`, sebelum dapat melakukan pemesanan rental kendaraan.
+
+---
+
+## 2. Berkas dan Komponen yang Ditambahkan / Diubah
+- **`application/config/routes.php`** (Diubah): Menambahkan route untuk halaman registrasi penyewa.
+- **`application/models/Penyewa_model.php`** (Ditambahkan): Membuat Model baru untuk menangani query basis data terkait data penyewa (pengecekan username duplikat dan penyimpanan data registrasi).
+- **`application/controllers/Auth.php`** (Diubah): Menambahkan method `register()` untuk menangani proses validasi input, hashing password, dan pemrosesan pendaftaran akun penyewa.
+- **`application/views/auth/register.php`** (Ditambahkan): Membuat tampilan formulir registrasi akun penyewa.
+
+---
+
+## 3. Rincian Perubahan dan Fitur yang Diimplementasikan
+1. **Routing Registrasi (`routes.php`)**:
+   - Menambahkan rute `$route['auth/register'] = 'Auth/register';`.
+2. **Model Penyewa (`Penyewa_model.php`)**:
+   - Method `findByUserPlg($userPlg)`: Memeriksa ketersediaan username di basis data.
+   - Method `create($data)`: Menyimpan data penyewa baru ke tabel `t_penyewa` menggunakan *prepared statement*.
+3. **Controller Autentikasi (`Auth.php`)**:
+   - Menangani *request* `GET` untuk menampilkan formulir registrasi dan *request* `POST` untuk memproses pendaftaran.
+   - Melakukan validasi input di Sisi Server (*Server-Side Validation*):
+     - Format username (1-15 karakter: huruf, angka, `.`, `_`, `-`).
+     - Keamanan password (minimal 8 karakter) dan konfirmasi password.
+     - Validasi NIK (tepat 16 digit angka).
+     - Validasi nama lengkap, nomor HP, dan alamat lengkap.
+   - Melakukan eksekusi *hashing* password menggunakan `password_hash()` demi keamanan basis data.
+   - Menyiapkan pesan notifikasi (*flash message*) saat registrasi berhasil atau pesan galat saat data tidak valid/duplikat.
+4. **View Registrasi (`application/views/auth/register.php`)**:
+   - Membuat formulir registrasi responsif dengan komponen antarmuka yang terintegrasi dengan layout Zay Shop.
+   - Menjaga data yang sudah diisi sebelumnya (`old input`) agar tidak hilang saat terjadi kesalahan validasi.
+
+---
+
+## 4. Langkah Pengujian
+1. Membuka halaman registrasi melalui navigasi menu atau URL: `http://localhost/dpwl-[NIM]/index.php/auth/register`.
+2. **Pengujian Input Tidak Valid**: Mengisikan password kurang dari 8 karakter, NIK bukan 16 digit, atau konfirmasi password yang tidak cocok untuk memastikan pesan galat muncul.
+3. **Pengujian Registrasi Berhasil**: Mengisi seluruh formulir sesuai ketentuan, lalu menekan tombol **Daftar**.
+4. **Pengujian Akun Duplikat**: Mencoba mendaftar kembali menggunakan username yang sudah terdaftar sebelumnya untuk memastikan sistem menolak username duplikat.
+
+---
+
+## 5. Hasil Aktual Pengujian & Status Fitur
+- **Validasi Input**: Berhasil menolak format input yang tidak memenuhi syarat dan menampilkan pesan kesalahan yang sesuai.
+- **Penyimpanan Data**: Berhasil menyimpan data akun penyewa baru ke dalam database `t_penyewa` dengan password yang tersimpan dalam bentuk hash terenkripsi.
+- **Pencegahan Duplikasi**: Berhasil mendeteksi username yang telah terdaftar dan menampilkan pesan galat "Username sudah digunakan."
+- **Status Fitur**: **BERHASIL DIUJI (SUCCESS)**.
