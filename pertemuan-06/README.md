@@ -266,3 +266,55 @@ Pada tahap ini, dilakukan implementasi fitur login, pengelolaan sesi, dan logout
 - **Manajemen Sesi**: Sesi penyewa tersimpan dengan aman pada `$_SESSION['penyewa_user_plg']` dan navigasi berubah secara dinamis sesuai status autentikasi.
 - **Proses Logout**: Berhasil menghapus sesi penyewa dan mengembalikan tampilan navigasi utama ke kondisi semula.
 - **Status Fitur**: **BERHASIL DIUJI (SUCCESS)**.
+
+# Dokumentasi Pengembangan P6 - Tahap F: Profil dan Pembaruan Data Penyewa
+
+## 1. Deskripsi Tahap
+Pada tahap ini, dilakukan implementasi fitur kelola profil dan pembaruan data penyewa[cite: 2]. Fitur ini memungkinkan penyewa yang sedang login untuk melihat data identitas diri, memperbarui informasi profil (NIK, Nama Lengkap, No HP, Alamat), mengganti kata sandi/password, serta mengunggah foto KTP dan SIM A[cite: 36, 40, 47].
+
+---
+
+## 2. Berkas dan Komponen yang Ditambahkan / Diubah
+- **`application/config/routes.php`** (Diubah): Menambahkan route untuk halaman profil penyewa (`penyewa/profil`)[cite: 2, 39].
+- **`application/models/Penyewa_model.php`** (Diubah): Menambahkan method `getProfil()`, `verifikasiPassword()`, dan `updateProfil()` untuk penanganan kueri profil dan kata sandi[cite: 2, 28, 29, 43, 44].
+- **`application/controllers/Penyewa_controller.php`** (Ditambahkan): Membuat Controller baru untuk menangani otorisasi sesi, validasi input profil/password, dan pemrosesan unggah berkas foto KTP & SIM A[cite: 2, 37].
+- **`application/views/penyewa/profil.php`** (Ditambahkan): Membuat tampilan formulir profil penyewa beserta preview foto KTP dan SIM A[cite: 2, 44].
+
+---
+
+## 3. Rincian Perubahan dan Fitur yang Diimplementasikan
+1. **Routing & Pembatasan Akses (`routes.php` & `Penyewa_controller.php`)**:
+   - Menambahkan rute `$route['penyewa/profil'] = 'Penyewa_controller/profil';`[cite: 39].
+   - Menambahkan verifikasi autentikasi sesi (`$_SESSION['penyewa_user_plg']`)[cite: 37, 40]. Jika pengguna belum login, akses ditolak dan dialihkan ke halaman login[cite: 37, 40].
+2. **Model Penyewa (`Penyewa_model.php`)**:
+   - Method `getProfil($userPlg)`: Mengambil data identitas lengkap penyewa berdasarkan username[cite: 28].
+   - Method `verifikasiPassword($userPlg, $passwordSaatIni)`: Memeriksa kebenaran password lama sebelum memproses ganti password[cite: 28, 29].
+   - Method `updateProfil(...)`: Memperbarui data profil, referensi berkas foto, dan hash password baru jika diisi[cite: 43, 44].
+3. **Validasi & Unggah Berkas (`Penyewa_controller.php`)**:
+   - Validasi ketat input NIK (16 digit), Nama Lengkap (maks. 100 karakter), No HP, dan Alamat[cite: 40, 41].
+   - Penanganan ganti password opsional dengan verifikasi password saat ini dan konfirmasi password baru[cite: 41].
+   - Validasi berkas foto KTP & SIM A: ekstensi gambar (`.jpg`, `.jpeg`, `.png`, `.webp`), MIME type, serta pembatasan ukuran maksimal 5 MB[cite: 41, 42]. Foto disimpan otomatis ke direktori `uploads/penyewa/`[cite: 42, 43].
+4. **View Profil (`application/views/penyewa/profil.php`)**:
+   - Formulir terintegrasi layout Zay Shop dengan *field* username *readonly*[cite: 48, 49].
+   - Menampilkan *preview* gambar KTP dan SIM A yang tersimpan di server[cite: 50, 51].
+
+---
+
+## 4. Langkah Pengujian
+1. **Pengujian Pembatasan Akses**: Mengakses URL `http://localhost/dpwl-[NIM]/index.php/penyewa/profil` langsung tanpa login, memastikan sistem me-redirect ke halaman login penyewa[cite: 40, 52].
+2. **Pengujian Akses Profil**: Login dengan akun penyewa, lalu mengklik ikon profil pada navbar untuk masuk ke halaman profil[cite: 52].
+3. **Pengujian Pembaruan Data & Unggah Foto**:
+   - Mengubah Nama, Nomor HP, dan Alamat[cite: 40, 41].
+   - Mengunggah berkas foto KTP dan SIM A (format PNG/JPG, < 5 MB)[cite: 41, 42, 51].
+   - Menekan tombol **Simpan Perubahan** dan memastikan pesan sukses muncul serta foto preview tampil[cite: 43, 48, 51, 52].
+4. **Pengujian Validasi Ganti Password**:
+   - Mengisi password baru tanpa mengisi password saat ini untuk menguji respon kesalahan[cite: 41].
+   - Mengisi password saat ini dengan benar untuk memastikan password berhasil diperbarui[cite: 41, 43].
+
+---
+
+## 5. Hasil Aktual Pengujian & Status Fitur
+- **Keamanan Akses**: Berhasil membatasi halaman profil hanya untuk penyewa terautentikasi[cite: 40].
+- **Pembaruan Data & Unggah Berkas**: Data profil berhasil diperbarui pada database `t_penyewa`, serta berkas foto KTP dan SIM A tersimpan rapi di direktori `uploads/penyewa/`[cite: 42, 43].
+- **Fitur Ganti Password**: Berhasil memverifikasi password lama dan meng-hash password baru menggunakan `password_hash()`[cite: 41, 43].
+- **Status Fitur**: **BERHASIL DIUJI (SUCCESS)**.
