@@ -40,3 +40,15 @@ Aplikasi P6 sudah memenuhi syarat kesiapan, stabil, dan bebas dari galat yang me
 **Status Pengujian B.2:**
 * Struktur Controller dan penanganan proteksi akses telah siap.
 * Pengujian fungsional penuh belum dilakukan di tahap ini karena masih menunggu integrasi Route (B.3) dan formulir pada View Katalog/Detail (Bagian C).
+
+
+#### B.3. Menambahkan Route Transaksi
+* Menambahkan rute baru pada `application\config\routes.php` untuk menghubungkan URL `transaksi/tambah` dengan metode `tambah()` pada `Transaksi_controller`:
+  ```php
+  $route['transaksi/tambah'] = 'Transaksi_controller/tambah';
+  ```
+
+**Status Pengujian Bagian B:**
+* Struktur Controller, Model, dan Route telah berhasil dikonfigurasi tanpa adanya galat sintaks PHP.
+* Pengujian fungsional penambahan kendaraan belum dilakukan di browser karena masih menunggu penyesuaian formulir pada View Katalog dan Detail Kendaraan di Bagian C
+
