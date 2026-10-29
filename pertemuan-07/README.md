@@ -55,8 +55,28 @@ Aplikasi P6 sudah memenuhi syarat kesiapan, stabil, dan bebas dari galat yang me
 ### Bagian C: Mengintegrasikan dan Menyesuaikan Tombol Tambah ke Keranjang pada Halaman Detail Kendaraan dan Halaman Katalog Kendaraan
 
 #### C.1. Mengubah Formulir pada application\views\katalog\detail.php
-* Mengintegrasikan formulir penambahan kendaraan ke keranjang pada halaman detail kendaraan[cite: 8].
+* Mengintegrasikan formulir penambahan kendaraan ke keranjang pada halaman detail kendaraan
 * Menyesuaikan tampilan tombol `Add To Cart` menjadi bentuk kondisional berdasarkan status ketersediaan unit dan status login penyewa[cite: 8, 9]:
   1. **Belum Login:** Menampilkan notifikasi informasi beserta tombol **Login Penyewa** dan **Registrasi**[cite: 9, 10].
   2. **Kendaraan Tidak Tersedia:** Menampilkan notifikasi status `Kendaraan ini tidak dapat ditambahkan ke keranjang karena statusnya tidak tersedia`[cite: 9, 10].
+  3. **Sudah Login & Tersedia:** Menampilkan formulir `POST` ke rute `transaksi/tambah` dengan tombol **Tambah ke Keranjang**
+
+### Bagian C: Mengintegrasikan dan Menyesuaikan Tombol Tambah ke Keranjang pada Halaman Detail Kendaraan dan Halaman Katalog Kendaraan
+
+#### C.1. Mengubah Formulir pada application\views\katalog\detail.php
+* Mengintegrasikan formulir penambahan kendaraan ke keranjang pada halaman detail kendaraan[cite: 8].
+* Menyesuaikan tampilan tombol `Add To Cart` menjadi bentuk kondisional berdasarkan status ketersediaan unit dan status login penyewa[cite: 8, 9]:
+  1. **Belum Login:** Menampilkan notifikasi informasi beserta tombol **Login Penyewa** dan **Registrasi**
+  2. **Kendaraan Tidak Tersedia:** Menampilkan notifikasi status `Kendaraan ini tidak dapat ditambahkan ke keranjang karena statusnya tidak tersedia`
   3. **Sudah Login & Tersedia:** Menampilkan formulir `POST` ke rute `transaksi/tambah` dengan tombol **Tambah ke Keranjang**[cite: 9, 11].
+
+#### C.2. Mengubah application\views\katalog\index.php
+* Adjust tombol penambahan kendaraan pada kartu katalog di halaman utama (`index.php`)[cite: 11, 12]:
+  * Kendaraan berstatus `tersedia` dan penyewa sudah login: Tombol aktif dikirimkan melalui formulir `POST`[cite: 11, 12].
+  * Kendaraan berstatus `tersedia` tetapi penyewa belum login: Tombol **Tambah ke Keranjang** ditampilkan dalam kondisi nonaktif (`disabled`)
+  * Kendaraan tidak tersedia / sedang disewa: Tombol diganti menjadi tombol nonaktif **Tidak Dapat Disewa**
+
+**Hasil Pengujian Bagian C:**
+* Berhasil memverifikasi ketiga kondisi tampilan pada halaman detail kendaraan (Belum Login, Tidak Tersedia, dan Sudah Login)[cite: 10, 11].
+* Berhasil memverifikasi tombol kondisional pada daftar kendaraan di halaman katalog[cite: 12, 13].
+* Seluruh elemen formulir mengirimkan data `no_plat` dan `return_to` melalui metode `POST` ke rute `transaksi/tambah` tanpa menimbulkan galat
