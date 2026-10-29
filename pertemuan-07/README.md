@@ -52,3 +52,11 @@ Aplikasi P6 sudah memenuhi syarat kesiapan, stabil, dan bebas dari galat yang me
 * Struktur Controller, Model, dan Route telah berhasil dikonfigurasi tanpa adanya galat sintaks PHP.
 * Pengujian fungsional penambahan kendaraan belum dilakukan di browser karena masih menunggu penyesuaian formulir pada View Katalog dan Detail Kendaraan di Bagian C
 
+### Bagian C: Mengintegrasikan dan Menyesuaikan Tombol Tambah ke Keranjang pada Halaman Detail Kendaraan dan Halaman Katalog Kendaraan
+
+#### C.1. Mengubah Formulir pada application\views\katalog\detail.php
+* Mengintegrasikan formulir penambahan kendaraan ke keranjang pada halaman detail kendaraan[cite: 8].
+* Menyesuaikan tampilan tombol `Add To Cart` menjadi bentuk kondisional berdasarkan status ketersediaan unit dan status login penyewa[cite: 8, 9]:
+  1. **Belum Login:** Menampilkan notifikasi informasi beserta tombol **Login Penyewa** dan **Registrasi**[cite: 9, 10].
+  2. **Kendaraan Tidak Tersedia:** Menampilkan notifikasi status `Kendaraan ini tidak dapat ditambahkan ke keranjang karena statusnya tidak tersedia`[cite: 9, 10].
+  3. **Sudah Login & Tersedia:** Menampilkan formulir `POST` ke rute `transaksi/tambah` dengan tombol **Tambah ke Keranjang**[cite: 9, 11].
