@@ -21,3 +21,10 @@ Aplikasi P6 sudah memenuhi syarat kesiapan, stabil, dan bebas dari galat yang me
 ### A.2. Riwayat Perubahan & Eksekusi Git
 * Seluruh berkas pada workspace `dpwl-nim` telah disalin ke folder arsip `dpwl-nim-nama\pertemuan-07\`.
 * Git commit dan push telah dilakukan untuk menandai titik awal (*baseline*) P7.
+
+### Bagian B: Membuat Model dan Controller Transaksi serta Route Tambah ke Keranjang
+
+#### B.1. Membuat Berkas application\models\Transaksi_model.php
+* Telah dibuat berkas `application\models\Transaksi_model.php` sebagai fondasi pengelolaan transaksi.
+* Mengimplementasikan metode `ambilKunci()` dan `lepasKunci()` menggunakan fungsi `GET_LOCK` dan `RELEASE_LOCK` dari MySQL untuk mengendalikan akses bersamaan (*concurrency control*).
+* Mengimplementasikan metode `kunciDanBuatKodeSewa()` untuk menghasilkan kode transaksi unik dengan format `INV/YYYYMMDD/NN` (nomor urut harian dibatasi hingga 99).
