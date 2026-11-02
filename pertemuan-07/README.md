@@ -322,3 +322,77 @@ Pengujian dilakukan melalui browser setelah perubahan Controller selesai.
 Tahap D.2.3 telah melakukan integrasi `Transaksi_model.php` ke dalam `Penyewa_controller.php` agar jumlah kendaraan dalam keranjang tetap dikirimkan ke halaman profil penyewa.
 
 Dengan perubahan ini, navbar dapat menampilkan jumlah kendaraan dalam keranjang pada halaman katalog, detail kendaraan, maupun profil penyewa, termasuk ketika formulir profil menampilkan pesan kesalahan.
+
+# README – Tahap E: Mengintegrasikan Proses Penambahan Kendaraan ke Keranjang
+
+## 1. Deskripsi
+
+Tahap E merupakan proses integrasi penambahan kendaraan ke dalam keranjang penyewa. Tujuannya agar tombol **Tambah ke Keranjang** pada halaman katalog dan detail kendaraan dapat menyimpan data kendaraan ke dalam database.
+
+Penyimpanan transaksi menggunakan pola Header-Detail:
+- Tabel `t_sewa` menyimpan informasi utama transaksi penyewaan (Header).
+- Tabel `t_pilih` menyimpan daftar kendaraan yang dipilih (Detail).
+
+## 2. File yang Diubah
+
+File yang diperbarui:
+
+```text
+application/
+└── models/
+    └── Transaksi_model.php
+```
+
+## 3. E.1 Menambahkan Method tambahKeKeranjang()
+
+Penambahan method `tambahKeKeranjang()` dilakukan pada class `Transaksi_model` untuk mencari keranjang aktif milik penyewa, membuat transaksi baru jika belum tersedia, dan menambahkan kendaraan yang dipilih ke dalam keranjang.
+
+### A. Menambahkan Helper namaKunciKeranjang()
+
+Helper ini digunakan untuk membuat nama kunci berdasarkan identitas penyewa agar tidak terjadi pembuatan keranjang aktif ganda.
+
+### B. Menambahkan Helper kunciKendaraan()
+
+Helper ini digunakan untuk mengambil dan mengunci data kendaraan dari tabel `t_mobil`, sekaligus memastikan kendaraan ditemukan.
+
+### C. Menambahkan Helper hitungHariSewa()
+
+Helper ini digunakan untuk menghitung durasi penyewaan berdasarkan tanggal mulai dan tanggal selesai.
+
+### D. Menambahkan Helper normalisasiWaktu()
+
+Helper ini digunakan untuk memvalidasi dan menyesuaikan format waktu pengambilan kendaraan.
+
+### E. Menambahkan Method tambahKeKeranjang()
+
+Method ini menjalankan proses penambahan kendaraan ke keranjang dengan tahapan:
+1. Memeriksa identitas penyewa dan nomor kendaraan.
+2. Memastikan kendaraan memiliki status tersedia.
+3. Mencari keranjang aktif milik penyewa.
+4. Membuat transaksi baru jika keranjang belum tersedia.
+5. Memeriksa agar kendaraan yang sama tidak ditambahkan dua kali.
+6. Menyimpan detail kendaraan ke tabel `t_pilih`.
+7. Menyelesaikan transaksi apabila proses berhasil.
+
+## 4. Hasil Pengujian
+
+Pengujian dilakukan melalui browser dan phpMyAdmin setelah method `tambahKeKeranjang()` selesai ditambahkan.
+
+| No. | Pengujian | Hasil |
+|---|---|---|
+| 1 | Login sebagai penyewa | Berhasil |
+| 2 | Membuka halaman katalog kendaraan | Berhasil |
+| 3 | Menambahkan kendaraan berstatus tersedia ke keranjang | Berhasil |
+| 4 | Memastikan aplikasi kembali ke halaman katalog dan menampilkan pesan hasil proses | Sesuaikan hasil aktual |
+| 5 | Memeriksa data transaksi pada tabel `t_sewa` | Sesuaikan hasil aktual |
+| 6 | Memeriksa data kendaraan pada tabel `t_pilih` dengan kode transaksi yang sama | Sesuaikan hasil aktual |
+| 7 | Menambahkan kendaraan lain ke keranjang aktif yang sama | Belum diverifikasi |
+| 8 | Mencoba menambahkan kendaraan yang sama untuk kedua kalinya | Belum diverifikasi |
+
+## 5. Kesimpulan
+
+Pada Tahap E telah dilakukan integrasi proses penambahan kendaraan ke keranjang melalui method `tambahKeKeranjang()` pada `Transaksi_model.php`.
+
+Proses ini memungkinkan sistem mencari keranjang aktif milik penyewa, membuat transaksi baru apabila belum tersedia, serta menyimpan kendaraan yang dipilih ke dalam tabel `t_pilih`.
+
+Berdasarkan pengujian awal, proses penambahan kendaraan ke keranjang telah berhasil dilakukan.

@@ -1,4 +1,3 @@
-
 <?php
 
 class Transaksi_model
@@ -29,7 +28,6 @@ class Transaksi_model
 
     if (!$stmt->execute()) {
       $stmt->close();
-
       throw new RuntimeException(
         'Kunci proses gagal dijalankan.'
       );
@@ -85,10 +83,10 @@ class Transaksi_model
     try {
       $stmt = $this->db->prepare(
         "SELECT kode_sewa
-                FROM t_sewa
-                WHERE kode_sewa LIKE ?
-                ORDER BY kode_sewa DESC
-                LIMIT 1"
+        FROM t_sewa
+        WHERE kode_sewa LIKE ?
+        ORDER BY kode_sewa DESC
+        LIMIT 1"
       );
 
       if (!$stmt) {
@@ -102,7 +100,6 @@ class Transaksi_model
 
       if (!$stmt->execute()) {
         $stmt->close();
-
         throw new RuntimeException(
           'Pencarian nomor transaksi gagal dijalankan.'
         );
@@ -148,10 +145,10 @@ class Transaksi_model
 
     $stmt = $this->db->prepare(
       "SELECT COUNT(*) AS jumlah
-            FROM t_pilih p
-            INNER JOIN t_sewa s ON s.kode_sewa = p.kode_sewa
-            WHERE s.user_plg = ?
-              AND s.status_sewa = 'keranjang'"
+      FROM t_pilih p
+      INNER JOIN t_sewa s ON s.kode_sewa = p.kode_sewa
+      WHERE s.user_plg = ?
+        AND s.status_sewa = 'keranjang'"
     );
 
     if (!$stmt) {
@@ -164,7 +161,6 @@ class Transaksi_model
 
     if (!$stmt->execute()) {
       $stmt->close();
-
       throw new RuntimeException(
         'Penghitungan kendaraan dalam keranjang gagal dijalankan.'
       );
@@ -187,10 +183,10 @@ class Transaksi_model
   {
     $stmt = $this->db->prepare(
       "SELECT no_plat, hrg_hari, status_unit
-            FROM t_mobil
-            WHERE no_plat = ?
-            LIMIT 1
-            FOR UPDATE"
+      FROM t_mobil
+      WHERE no_plat = ?
+      LIMIT 1
+      FOR UPDATE"
     );
 
     if (!$stmt) {
@@ -203,7 +199,6 @@ class Transaksi_model
 
     if (!$stmt->execute()) {
       $stmt->close();
-
       throw new RuntimeException(
         'Penguncian kendaraan gagal dijalankan.'
       );
@@ -356,12 +351,12 @@ class Transaksi_model
 
       $stmt = $this->db->prepare(
         "SELECT kode_sewa, tgl_mulai, tgl_selesai, wkt_ambil
-                FROM t_sewa
-                WHERE user_plg = ?
-                  AND status_sewa = 'keranjang'
-                ORDER BY kode_sewa ASC
-                LIMIT 1
-                FOR UPDATE"
+        FROM t_sewa
+        WHERE user_plg = ?
+          AND status_sewa = 'keranjang'
+        ORDER BY kode_sewa ASC
+        LIMIT 1
+        FOR UPDATE"
       );
 
       if (!$stmt) {
@@ -374,7 +369,6 @@ class Transaksi_model
 
       if (!$stmt->execute()) {
         $stmt->close();
-
         throw new RuntimeException(
           'Pencarian keranjang aktif gagal dijalankan.'
         );
@@ -405,13 +399,13 @@ class Transaksi_model
 
         $stmt = $this->db->prepare(
           "INSERT INTO t_sewa (
-                        kode_sewa,
-                        tgl_mulai,
-                        tgl_selesai,
-                        wkt_ambil,
-                        status_sewa,
-                        user_plg
-                    ) VALUES (?, ?, ?, ?, 'keranjang', ?)"
+            kode_sewa,
+            tgl_mulai,
+            tgl_selesai,
+            wkt_ambil,
+            status_sewa,
+            user_plg
+          ) VALUES (?, ?, ?, ?, 'keranjang', ?)"
         );
 
         if (!$stmt) {
@@ -431,7 +425,6 @@ class Transaksi_model
 
         if (!$stmt->execute()) {
           $stmt->close();
-
           throw new RuntimeException(
             'Transaksi keranjang gagal dibuat.'
           );
@@ -443,11 +436,11 @@ class Transaksi_model
       // Cegah kendaraan yang sama dimasukkan dua kali.
       $stmt = $this->db->prepare(
         "SELECT 1
-                FROM t_pilih
-                WHERE kode_sewa = ?
-                  AND no_plat = ?
-                LIMIT 1
-                FOR UPDATE"
+        FROM t_pilih
+        WHERE kode_sewa = ?
+          AND no_plat = ?
+        LIMIT 1
+        FOR UPDATE"
       );
 
       if (!$stmt) {
@@ -460,7 +453,6 @@ class Transaksi_model
 
       if (!$stmt->execute()) {
         $stmt->close();
-
         throw new RuntimeException(
           'Pemeriksaan kendaraan dalam keranjang gagal dijalankan.'
         );
@@ -484,11 +476,11 @@ class Transaksi_model
 
       $stmt = $this->db->prepare(
         "INSERT INTO t_pilih (
-                    kode_sewa,
-                    no_plat,
-                    hrg_sewa,
-                    n_hari
-                ) VALUES (?, ?, ?, ?)"
+          kode_sewa,
+          no_plat,
+          hrg_sewa,
+          n_hari
+        ) VALUES (?, ?, ?, ?)"
       );
 
       if (!$stmt) {
