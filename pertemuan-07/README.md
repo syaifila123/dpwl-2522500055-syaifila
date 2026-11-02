@@ -430,3 +430,29 @@ Halaman keranjang juga menyediakan beberapa fitur:
 3. Melanjutkan proses checkout.
 
 Tampilan menggunakan header, navbar, dan footer yang sudah tersedia pada aplikasi.
+
+## 4. F.2 Menambahkan Method pada Transaksi_controller.php
+
+Memperbarui `Transaksi_controller.php` dengan menambahkan beberapa method untuk mengelola halaman keranjang dan proses transaksi.
+
+### A. Method keranjang()
+
+Digunakan untuk menampilkan isi keranjang milik penyewa yang sedang login.
+
+Method ini memeriksa keranjang aktif dan mengambil data keranjang berdasarkan kode transaksi serta identitas penyewa.
+
+### B. Method perbaruiPeriode()
+
+Digunakan untuk memperbarui tanggal mulai, tanggal selesai, dan waktu pengambilan kendaraan.
+
+### C. Method hapus()
+
+Digunakan untuk menghapus kendaraan tertentu dari keranjang penyewa.
+
+### D. Method checkout()
+
+Digunakan untuk menampilkan halaman konfirmasi transaksi dan memproses pengajuan checkout.
+
+### E. Method redirectDenganPesan()
+
+Digunakan untuk menyimpan pesan notifikasi transaksi ke session sebelum mengarahkan pengguna ke halaman tujuan.
