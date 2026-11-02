@@ -456,3 +456,55 @@ Digunakan untuk menampilkan halaman konfirmasi transaksi dan memproses pengajuan
 ### E. Method redirectDenganPesan()
 
 Digunakan untuk menyimpan pesan notifikasi transaksi ke session sebelum mengarahkan pengguna ke halaman tujuan.
+
+# README – Tahap F.3.2
+## Menguji Tampilan Konfirmasi Checkout
+
+### 1. Tujuan
+Melakukan pengujian terhadap halaman Konfirmasi Transaksi setelah penyewa menekan tombol **Checkout / Lihat Konfirmasi** pada halaman keranjang.
+
+### 2. Berkas yang Digunakan
+- `application/controllers/Transaksi_controller.php`
+- `application/models/Transaksi_model.php`
+- `application/views/transaksi/keranjang.php`
+- `application/views/transaksi/konfirmasi.php`
+
+### 3. Pengujian
+Pengujian dilakukan dengan langkah-langkah berikut:
+
+1. Menjalankan Laragon dan membuka aplikasi DPWL melalui browser.
+2. Login menggunakan akun penyewa yang memiliki keranjang berisi kendaraan.
+3. Membuka halaman keranjang.
+4. Menekan tombol **Checkout / Lihat Konfirmasi**.
+5. Memeriksa apakah halaman Konfirmasi Transaksi menampilkan:
+   - Kode transaksi.
+   - Tanggal mulai dan tanggal selesai.
+   - Waktu pengambilan.
+   - Daftar kendaraan.
+   - Nomor polisi.
+   - Harga sewa per hari.
+   - Durasi sewa.
+   - Subtotal.
+   - Total sewa.
+   - Uang muka (DP) sebesar 30%.
+   - Sisa pembayaran setelah DP.
+6. Memeriksa tombol **Kembali ke Keranjang** dan memastikan transaksi tetap menggunakan kode sewa yang sama.
+7. Memastikan halaman konfirmasi tidak dapat ditampilkan untuk transaksi milik penyewa lain atau transaksi yang sudah tidak berstatus keranjang.
+
+### 4. Hasil Pengujian
+
+| No. | Pengujian | Hasil |
+|---|---|---|
+| 1 | Membuka halaman keranjang | Berhasil |
+| 2 | Menekan tombol Checkout / Lihat Konfirmasi | Berhasil diarahkan ke URL checkout |
+| 3 | Menampilkan halaman Konfirmasi Transaksi | Belum berhasil |
+| 4 | Menampilkan rincian transaksi dan perhitungan DP 30% | Belum dapat diuji |
+| 5 | Tombol Kembali ke Keranjang | Belum dapat diuji |
+| 6 | Validasi kepemilikan dan status transaksi | Belum dapat diuji |
+
+**Kendala:** Saat membuka URL checkout, aplikasi menampilkan pesan `View tidak ditemukan.`
+
+Pemeriksaan awal menunjukkan bahwa controller memanggil view `transaksi/konfirmasi` dan file `konfirmasi.php` sudah tersedia di folder `application/views/transaksi/`. Pemeriksaan lebih lanjut pada fungsi `view()` di file `Controller.php` masih diperlukan.
+
+### 5. Kesimpulan
+Pengujian tampilan Konfirmasi Checkout sudah dilakukan, tetapi belum berhasil karena aplikasi menampilkan pesan `View tidak ditemukan.`. Perbaikan perlu dilakukan pada proses pemanggilan atau pencarian file view sebelum pengujian dilanjutkan.
