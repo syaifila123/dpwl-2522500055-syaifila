@@ -80,3 +80,245 @@ Aplikasi P6 sudah memenuhi syarat kesiapan, stabil, dan bebas dari galat yang me
 * Berhasil memverifikasi ketiga kondisi tampilan pada halaman detail kendaraan (Belum Login, Tidak Tersedia, dan Sudah Login)[cite: 10, 11].
 * Berhasil memverifikasi tombol kondisional pada daftar kendaraan di halaman katalog[cite: 12, 13].
 * Seluruh elemen formulir mengirimkan data `no_plat` dan `return_to` melalui metode `POST` ke rute `transaksi/tambah` tanpa menimbulkan galat
+
+# README – Tahap D 
+
+# D.1: Menampilkan Pesan Notifikasi dan Tautan Keranjang pada Navbar
+## 1. Deskripsi
+Tahap D.1 merupakan proses penyesuaian navbar pada aplikasi penyewaan kendaraan. Perubahan dilakukan pada file `application/views/katalog/navbar.php` untuk menampilkan pesan notifikasi transaksi dan menambahkan tautan menuju halaman keranjang penyewa.
+
+## 2. File yang Diubah
+File yang diperbarui:
+
+```text
+application/views/katalog/navbar.php
+```
+
+## 3. Perubahan yang Dilakukan
+
+### A. Menambahkan Variabel Jumlah Keranjang
+Menambahkan variabel `$jumlahKeranjang` dengan nilai default 0 apabila data belum dikirimkan oleh Controller.
+
+### B. Menambahkan Flash Message Transaksi
+Menambahkan variabel `$flashKatalog` untuk mengambil pesan transaksi dari session `flash_transaksi`.
+
+Pesan notifikasi ditampilkan berdasarkan jenis pesan, yaitu:
+- `success` untuk pesan berhasil.
+- `danger` untuk pesan gagal.
+
+Notifikasi juga dilengkapi tombol untuk menutup pesan.
+
+### C. Mengubah Tautan Ikon Keranjang
+Mengubah tautan ikon keranjang yang sebelumnya menggunakan `href="#"` menjadi:
+
+```php
+<?= $e(site_url('transaksi/keranjang')) ?>
+```
+
+Jumlah kendaraan pada ikon keranjang menggunakan variabel `$jumlahKeranjang`, bukan lagi angka statis.
+
+## 4. Hasil Pengujian
+
+Pengujian dilakukan setelah perubahan navbar selesai.
+
+| No. | Pengujian | Hasil |
+|---|---|---|
+| 1 | Membuka halaman katalog | Berhasil |
+| 2 | Memeriksa tampilan navbar | Berhasil |
+| 3 | Memeriksa tautan ikon keranjang | Berhasil diarahkan ke URL `/transaksi/keranjang` |
+| 4 | Membuka halaman keranjang | Belum berhasil, menampilkan halaman 404 |
+| 5 | Menguji jumlah kendaraan secara dinamis | Belum dilakukan, menunggu integrasi Controller dan Model |
+
+**Catatan:** Munculnya halaman 404 dicatat sebagai hasil pengujian akses halaman tujuan. Pada Tahap D.1, pengujian tautan berfokus pada memastikan ikon keranjang mengarah ke URL yang ditentukan modul. Pengujian jumlah kendaraan dilakukan setelah integrasi Controller dan Model selesai.
+
+## 5. Kesimpulan
+Pada Tahap D.1 telah dilakukan perubahan pada navbar dengan menambahkan flash message transaksi, mengubah tautan ikon keranjang, dan menggunakan variabel `$jumlahKeranjang` untuk menampilkan jumlah kendaraan.
+
+Perubahan navbar telah dilakukan sesuai instruksi Modul P7. Integrasi jumlah kendaraan dan pengujian halaman keranjang dilanjutkan sesuai tahapan berikutnya.
+
+# README – Tahap D.2.1 dan D.2.2: Integrasi Jumlah Keranjang pada Model dan Controller Katalog
+
+## 1. Deskripsi
+Tahap D.2 merupakan proses integrasi jumlah kendaraan yang terdapat di dalam keranjang penyewa. Jumlah kendaraan dihitung berdasarkan akun penyewa yang sedang login dan ditampilkan pada navbar halaman katalog serta detail kendaraan.
+
+Pada tahap ini dilakukan perubahan pada Model transaksi dan Controller katalog.
+
+## 2. File yang Diubah
+
+File yang diperbarui:
+
+```text
+application/
+├── models/
+│   └── Transaksi_model.php
+└── controllers/
+    └── Katalog_controller.php
+```
+
+## 3. D.2.1 Memperbarui Transaksi_model.php
+
+### A. Penambahan Method getJumlahMobilKeranjang()
+
+Menambahkan method `getJumlahMobilKeranjang()` pada class `Transaksi_model`.
+
+Method ini berfungsi untuk menghitung jumlah kendaraan dalam keranjang berdasarkan akun penyewa yang sedang login.
+
+### B. Proses yang Dilakukan
+- Memeriksa dan membersihkan nilai username penyewa.
+- Mengembalikan nilai 0 jika username kosong.
+- Mengambil jumlah kendaraan menggunakan query SQL.
+- Menghubungkan tabel `t_pilih` dengan tabel `t_sewa`.
+- Menghitung data berdasarkan `user_plg` dan status penyewaan `keranjang`.
+- Mengembalikan hasil perhitungan dalam bentuk integer.
+
+## 4. D.2.2 Memperbarui Katalog_controller.php
+
+### A. Menambahkan Pemanggilan Model Transaksi
+
+Menambahkan pemanggilan file `Transaksi_model.php` menggunakan `require_once` agar Controller dapat menggunakan Model transaksi.
+
+### B. Menambahkan Properti Model Transaksi
+
+Menambahkan properti:
+
+```php
+private Transaksi_model $transaksiModel;
+```
+
+Properti tersebut digunakan untuk mengakses method yang tersedia pada `Transaksi_model`.
+
+### C. Inisialisasi Model Transaksi
+
+Menambahkan inisialisasi Model transaksi di dalam method `__construct()`:
+
+```php
+$this->transaksiModel = new Transaksi_model();
+```
+
+### D. Mengirim Jumlah Keranjang pada Method index()
+
+Memperbarui method `index()` agar mengirimkan data `jumlahKeranjang` ke halaman katalog.
+
+Jumlah keranjang dihitung berdasarkan akun penyewa yang sedang login. Jika penyewa belum login, jumlah keranjang bernilai 0.
+
+### E. Mengirim Jumlah Keranjang pada Method detail()
+
+Memperbarui method `detail()` agar mengirimkan data `jumlahKeranjang` bersama informasi kendaraan ke halaman detail kendaraan.
+
+Dengan perubahan ini, jumlah kendaraan dalam keranjang dapat ditampilkan pada navbar halaman katalog dan detail kendaraan.
+
+## 5. Hasil Pengujian
+
+Pengujian dilakukan melalui browser setelah perubahan Model dan Controller selesai.
+
+| No. | Pengujian | Hasil |
+|---|---|---|
+| 1 | Membuka halaman katalog kendaraan | Isi sesuai hasil pengujian aktual |
+| 2 | Membuka halaman detail kendaraan | Isi sesuai hasil pengujian aktual |
+| 3 | Mengakses katalog tanpa login sebagai penyewa | Jumlah keranjang seharusnya 0 |
+| 4 | Mengakses detail kendaraan tanpa login sebagai penyewa | Jumlah keranjang seharusnya 0 |
+| 5 | Login sebagai penyewa dan membuka katalog | Jumlah keranjang mengikuti isi keranjang akun tersebut |
+| 6 | Login sebagai penyewa dan membuka detail kendaraan | Jumlah keranjang mengikuti isi keranjang akun tersebut |
+
+**Catatan:** Pada tahap ini, apabila keranjang penyewa masih kosong, jumlah yang ditampilkan adalah 0. Hal tersebut wajar karena proses penambahan kendaraan ke keranjang belum dibahas pada tahap ini.
+
+Hasil pengujian di atas perlu disesuaikan dengan kondisi aplikasi yang benar-benar telah diuji.
+
+## 6. Kesimpulan
+
+Tahap D.2.1 dan D.2.2 dilakukan untuk mengintegrasikan perhitungan jumlah kendaraan dalam keranjang melalui Model transaksi dan Controller katalog.
+
+Dengan perubahan tersebut, jumlah keranjang dapat dikirimkan ke halaman katalog dan detail kendaraan berdasarkan akun penyewa yang sedang login. Apabila penyewa belum login, jumlah keranjang ditampilkan sebagai 0.
+
+# README – Tahap D.2.3: Mengirim Jumlah Keranjang ke Halaman Profil Penyewa
+
+## 1. Deskripsi
+
+Tahap D.2.3 merupakan proses penyesuaian `Penyewa_controller.php` agar jumlah kendaraan dalam keranjang tetap ditampilkan pada navbar ketika penyewa membuka halaman profil.
+
+Perubahan dilakukan dengan mengintegrasikan `Transaksi_model.php` ke dalam Controller penyewa sehingga jumlah kendaraan dalam keranjang dapat dihitung berdasarkan akun penyewa yang sedang login.
+
+## 2. File yang Diubah
+
+File yang diperbarui:
+
+```text
+application/
+└── controllers/
+    └── Penyewa_controller.php
+```
+
+## 3. Perubahan yang Dilakukan
+
+### A. Menambahkan Pemanggilan Model Transaksi
+
+Menambahkan pemanggilan `Transaksi_model.php` pada bagian atas file setelah pemanggilan Model penyewa.
+
+```php
+require_once APPPATH . 'models/Transaksi_model.php';
+```
+
+### B. Menambahkan Properti Model Transaksi
+
+Menambahkan properti berikut di dalam class `Penyewa_controller` setelah properti Model penyewa.
+
+```php
+private Transaksi_model $transaksiModel;
+```
+
+### C. Menginisialisasi Model Transaksi
+
+Menambahkan inisialisasi Model transaksi di dalam method `__construct()` tanpa menghapus inisialisasi Model penyewa yang sudah ada.
+
+```php
+$this->transaksiModel = new Transaksi_model();
+```
+
+### D. Memperbarui Method profil()
+
+Menambahkan pemanggilan method `getJumlahMobilKeranjang($userPlg)` setelah data profil berhasil ditemukan.
+
+Jumlah keranjang kemudian dikirimkan ke View `penyewa/profil` melalui array data menggunakan:
+
+```php
+'jumlahKeranjang' => $jumlahKeranjang
+```
+
+### E. Memperbarui Tampilan Ketika Validasi Gagal
+
+Pada bagian validasi formulir profil, jumlah keranjang juga dihitung dan dikirimkan ke View `penyewa/profil`.
+
+Dengan demikian, ketika pengguna memasukkan data yang tidak valid dan pesan kesalahan ditampilkan, jumlah kendaraan dalam keranjang tetap muncul pada navbar.
+
+### F. Memperbarui Method renderProfilError()
+
+Menambahkan pengambilan username penyewa dari session dan menghitung jumlah keranjang.
+
+```php
+$userPlg = trim((string) ($_SESSION['penyewa_user_plg'] ?? ''));
+
+$jumlahKeranjang = $userPlg === ''
+    ? 0
+    : $this->transaksiModel->getJumlahMobilKeranjang($userPlg);
+```
+
+Selanjutnya, variabel `$jumlahKeranjang` dikirimkan ke View profil agar navbar tetap menampilkan jumlah kendaraan meskipun terjadi kesalahan pada proses profil.
+
+## 4. Hasil Pengujian
+
+Pengujian dilakukan melalui browser setelah perubahan Controller selesai.
+
+| No. | Pengujian | Hasil |
+|---|---|---|
+| 1 | Login sebagai penyewa yang memiliki kendaraan dalam keranjang | Sesuaikan hasil pengujian |
+| 2 | Membuka halaman profil dan memeriksa jumlah keranjang | Sesuaikan hasil pengujian |
+| 3 | Mengubah data profil menggunakan data valid dan menyimpan perubahan | Sesuaikan hasil pengujian |
+| 4 | Menguji validasi formulir menggunakan data tidak valid | Sesuaikan hasil pengujian |
+| 5 | Memeriksa jumlah keranjang setelah muncul pesan kesalahan | Sesuaikan hasil pengujian |
+| 6 | Memeriksa kembali halaman katalog dan detail kendaraan | Sesuaikan hasil pengujian |
+
+## 5. Kesimpulan
+
+Tahap D.2.3 telah melakukan integrasi `Transaksi_model.php` ke dalam `Penyewa_controller.php` agar jumlah kendaraan dalam keranjang tetap dikirimkan ke halaman profil penyewa.
+
+Dengan perubahan ini, navbar dapat menampilkan jumlah kendaraan dalam keranjang pada halaman katalog, detail kendaraan, maupun profil penyewa, termasuk ketika formulir profil menampilkan pesan kesalahan.
