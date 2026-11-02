@@ -2,13 +2,11 @@
 class Transaksi_model
 {
   private mysqli $db;
-
   public function __construct()
   {
     global $db;
     $this->db = $db;
   }
-
   private function ambilKunci(
     string $namaKunci,
     int $timeout = 10
@@ -65,7 +63,6 @@ class Transaksi_model
       );
     }
   }
-
   private function kunciDanBuatKodeSewa(): array
   {
     $tanggal = (
@@ -82,11 +79,11 @@ class Transaksi_model
 
     try {
       $stmt = $this->db->prepare(
-        "SELECT kode_sewa
-                FROM t_sewa
-                WHERE kode_sewa LIKE ?
-                ORDER BY kode_sewa DESC
-                LIMIT 1"
+        "SELECT kode_sewa 
+       FROM t_sewa 
+       WHERE kode_sewa LIKE ? 
+       ORDER BY kode_sewa DESC 
+       LIMIT 1"
       );
 
       if (!$stmt) {
@@ -134,5 +131,41 @@ class Transaksi_model
       $this->lepasKunci($namaKunci);
       throw $e;
     }
+  }
+  public function getJumlahMobilKeranjang(string $userPlg): int
+  {
+    $userPlg = trim($userPlg);
+
+    if ($userPlg === '') {
+      return 0;
+    }
+
+    $stmt = $this->db->prepare(
+      "SELECT COUNT(*) AS jumlah 
+      FROM t_pilih p 
+      INNER JOIN t_sewa s ON s.kode_sewa = p.kode_sewa 
+      WHERE s.user_plg = ? 
+        AND s.status_sewa = 'keranjang'"
+    );
+
+    if (!$stmt) {
+      throw new RuntimeException(
+        'Penghitungan kendaraan dalam keranjang gagal disiapkan.'
+      );
+    }
+
+    $stmt->bind_param('s', $userPlg);
+
+    if (!$stmt->execute()) {
+      $stmt->close();
+      throw new RuntimeException(
+        'Penghitungan kendaraan dalam keranjang gagal dijalankan.'
+      );
+    }
+
+    $hasil = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    return (int) ($hasil['jumlah'] ?? 0);
   }
 }
