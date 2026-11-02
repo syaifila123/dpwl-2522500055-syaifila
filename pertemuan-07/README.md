@@ -508,3 +508,38 @@ Pemeriksaan awal menunjukkan bahwa controller memanggil view `transaksi/konfirma
 
 ### 5. Kesimpulan
 Pengujian tampilan Konfirmasi Checkout sudah dilakukan, tetapi belum berhasil karena aplikasi menampilkan pesan `View tidak ditemukan.`. Perbaikan perlu dilakukan pada proses pemanggilan atau pencarian file view sebelum pengujian dilanjutkan.
+
+# README – Tahap F.3.3
+## Menguji Proses Checkout
+
+### 1. Tujuan
+Melakukan pengujian proses checkout untuk memastikan transaksi penyewaan kendaraan berhasil diajukan kepada admin dan sistem mencatat pembayaran uang muka (DP) sebesar 30% dari total biaya sewa.
+
+### 2. Berkas yang Digunakan
+- `application/controllers/Transaksi_controller.php`
+- `application/models/Transaksi_model.php`
+- `application/views/transaksi/keranjang.php`
+- `application/views/transaksi/konfirmasi.php`
+
+### 3. Langkah-Langkah Pengujian
+Pengujian dilakukan dengan langkah-langkah berikut:
+
+1. Membuka halaman Konfirmasi Transaksi dan memeriksa kembali seluruh rincian penyewaan.
+2. Menekan tombol **Konfirmasi dan Ajukan Transaksi**, kemudian menyetujui dialog konfirmasi.
+3. Memastikan aplikasi memproses permintaan POST dan mengarahkan penyewa ke halaman katalog dengan pesan bahwa transaksi telah diajukan dan menunggu persetujuan admin.
+4. Membuka phpMyAdmin dan memeriksa tabel `t_sewa`. Pastikan nilai `status_sewa` pada transaksi tersebut berubah dari `keranjang` menjadi `diajukan`.
+5. Memeriksa tabel `t_bayar`. Pastikan terdapat satu catatan pembayaran DP untuk kode transaksi tersebut dengan ketentuan:
+   - `jns_byr` bernilai `dp`.
+   - `mtode_byr` bernilai `transfer`.
+   - `nominal` sesuai dengan DP sebesar 30% dari total sewa.
+   - `sttus_byr` bernilai `pending`.
+6. Memastikan transaksi yang sudah diajukan tidak dapat di-checkout kembali sebagai keranjang aktif.
+
+### 4. Hasil Pengujian
+
+| No. | Pengujian | Hasil |
+|---|---|---|
+| 1 | Membuka halaman konfirmasi transaksi | Belum dapat diuji |
+| 2 | Menekan tombol Konfirmasi dan Ajukan Transaksi | Belum dapat diuji |
+| 3 | Pengalihan ke halaman katalog dengan pesan transaksi diajukan | Belum dapat diuji |
+| 4 | Memeriksa perubahan
