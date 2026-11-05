@@ -139,3 +139,21 @@ Menyempurnakan tampilan halaman Manajemen Penyewa agar Admin dapat menginput dat
 Tampilan form dan tabel Manajemen Penyewa berhasil diperbarui.
 
 **Status: Bagian 1 selesai.**
+
+# Tahap 6 Bagian 2 – Implementasi Edit dan Hapus Data Penyewa
+
+## Tujuan
+Mengaktifkan fitur Edit dan Hapus pada halaman Manajemen Penyewa.
+
+## Pekerjaan yang Dilakukan
+1. Menambahkan tombol Edit pada tabel data penyewa.
+2. Membuat formulir untuk mengubah data penyewa.
+3. Menghubungkan formulir Edit dengan Controller.
+4. Menambahkan tombol Hapus untuk menghapus data penyewa.
+5. Menambahkan konfirmasi sebelum penghapusan data.
+6. Mempertahankan tampilan AdminLTE.
+
+## Hasil
+Tombol Edit dan Hapus berhasil ditampilkan dan dihubungkan dengan route Controller.
+
+**Status: Bagian 2 selesai.**

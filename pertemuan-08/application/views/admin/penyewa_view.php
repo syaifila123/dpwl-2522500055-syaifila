@@ -30,6 +30,7 @@ $judul = $judul ?? 'Manajemen Data Penyewa';
 
     <!-- Form Tambah Penyewa -->
     <div class="box box-primary">
+
       <div class="box-header with-border">
         <h3 class="box-title">Form Tambah Data Penyewa</h3>
       </div>
@@ -135,8 +136,10 @@ $judul = $judul ?? 'Manajemen Data Penyewa';
       </form>
     </div>
 
+
     <!-- Tabel Data Penyewa -->
     <div class="box">
+
       <div class="box-header">
         <h3 class="box-title">Daftar Data Penyewa</h3>
       </div>
@@ -169,6 +172,7 @@ $judul = $judul ?? 'Manajemen Data Penyewa';
                 <?php foreach ($penyewa as $p): ?>
 
                   <tr>
+
                     <td><?= $no++ ?></td>
 
                     <td>
@@ -199,19 +203,81 @@ $judul = $judul ?? 'Manajemen Data Penyewa';
                       <?= htmlspecialchars($p['ft_sim_a'] ?? '-', ENT_QUOTES, 'UTF-8') ?>
                     </td>
 
-                    <!-- Tombol Aksi -->
+                    <!-- Aksi Edit dan Hapus -->
                     <td>
-                      <a href="#"
-                        class="btn btn-warning btn-sm"
-                        title="Edit Data">
-                        <i class="fa fa-edit"></i> Edit
-                      </a>
 
-                      <button type="button"
-                        class="btn btn-danger btn-sm"
-                        onclick="alert('Fungsi hapus akan diaktifkan pada bagian berikutnya.')">
-                        <i class="fa fa-trash"></i> Hapus
-                      </button>
+                      <!-- Tombol Edit -->
+                      <details>
+                        <summary class="btn btn-warning btn-sm">
+                          <i class="fa fa-edit"></i> Edit
+                        </summary>
+
+                        <div style="min-width:250px; padding:10px; background:#f4f4f4; margin-top:10px;">
+
+                          <form method="POST"
+                            action="<?= htmlspecialchars(site_url('admin/penyewa/ubah/' . rawurlencode($p['user_plg'])), ENT_QUOTES, 'UTF-8') ?>">
+
+                            <div class="form-group">
+                              <label>NIK</label>
+                              <input type="text"
+                                name="nik"
+                                class="form-control"
+                                maxlength="16"
+                                pattern="[0-9]{16}"
+                                value="<?= htmlspecialchars($p['nik'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                required>
+                            </div>
+
+                            <div class="form-group">
+                              <label>Nama Lengkap</label>
+                              <input type="text"
+                                name="nm_lngkp"
+                                class="form-control"
+                                maxlength="100"
+                                value="<?= htmlspecialchars($p['nm_lngkp'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                required>
+                            </div>
+
+                            <div class="form-group">
+                              <label>Nomor HP</label>
+                              <input type="text"
+                                name="no_hp"
+                                class="form-control"
+                                maxlength="15"
+                                value="<?= htmlspecialchars($p['no_hp'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                required>
+                            </div>
+
+                            <div class="form-group">
+                              <label>Alamat Lengkap</label>
+                              <textarea name="almt_lngkp"
+                                class="form-control"
+                                maxlength="300"
+                                required><?= htmlspecialchars($p['almt_lngkp'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-sm">
+                              <i class="fa fa-save"></i> Simpan Perubahan
+                            </button>
+
+                          </form>
+
+                        </div>
+                      </details>
+
+                      <br><br>
+
+                      <!-- Tombol Hapus -->
+                      <form method="POST"
+                        action="<?= htmlspecialchars(site_url('admin/penyewa/hapus/' . rawurlencode($p['user_plg'])), ENT_QUOTES, 'UTF-8') ?>"
+                        onsubmit="return confirm('Apakah kamu yakin ingin menghapus data penyewa ini?')">
+
+                        <button type="submit" class="btn btn-danger btn-sm">
+                          <i class="fa fa-trash"></i> Hapus
+                        </button>
+
+                      </form>
+
                     </td>
 
                   </tr>
