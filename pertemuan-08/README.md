@@ -103,3 +103,21 @@ Membuat fungsi pengelolaan data penyewa menggunakan Model dan MySQLi Prepared St
 Fungsi CRUD pada Model Manajemen Penyewa berhasil dibuat dan siap dihubungkan dengan Controller.
 
 **Status: Bagian Model selesai, proses CRUD keseluruhan masih berlanjut.**
+
+# Tahap 5 Lanjutan – Implementasi CRUD Controller Manajemen Penyewa
+
+## Tujuan
+Menghubungkan Model Manajemen Penyewa dengan Controller untuk memproses pengelolaan data penyewa.
+
+## Pekerjaan yang Dilakukan
+1. Menambahkan fungsi `tambah()` untuk memproses penambahan data penyewa.
+2. Menambahkan fungsi `ubah()` untuk memproses perubahan data penyewa.
+3. Menambahkan fungsi `hapus()` untuk memproses penghapusan data penyewa.
+4. Menambahkan validasi input dan hashing password.
+5. Menambahkan route untuk proses tambah, ubah, dan hapus data.
+6. Menambahkan redirect setelah proses pengolahan data.
+
+## Hasil
+Fungsi Controller untuk proses CRUD Manajemen Penyewa berhasil dibuat dan dihubungkan dengan Model serta Routes.
+
+**Status: Selesai.**
