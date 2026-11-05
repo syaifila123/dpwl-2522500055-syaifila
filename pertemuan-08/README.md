@@ -51,3 +51,20 @@ Membuat model untuk mengelola dan mengambil data penyewa dari database.
 Model Manajemen Penyewa berhasil dibuat dan siap digunakan oleh Controller pada tahap berikutnya.
 
 **Status: Selesai.**
+
+# Tahap 3 – Pembuatan Controller Manajemen Penyewa
+
+## Tujuan
+Menghubungkan Model Manajemen Penyewa dengan Controller agar data penyewa dapat diambil dari database.
+
+## Pekerjaan yang Dilakukan
+1. Memperbarui file `Manajemen_penyewa_controller.php`.
+2. Menghubungkan Controller dengan `Manajemen_penyewa_model.php`.
+3. Menambahkan pengecekan autentikasi Admin.
+4. Mengambil seluruh data penyewa menggunakan method `getAll()`.
+5. Mengirim data penyewa ke halaman View.
+
+## Hasil
+Controller Manajemen Penyewa berhasil diperbarui dan siap digunakan untuk menampilkan data penyewa.
+
+**Status: Selesai.**
