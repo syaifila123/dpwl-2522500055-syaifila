@@ -46,3 +46,4 @@ $route['admin/penyewa'] = 'Manajemen_penyewa_controller/index';
 $route['admin/penyewa/tambah'] = 'Manajemen_penyewa_controller/tambah';
 $route['admin/penyewa/ubah/(:any)'] = 'Manajemen_penyewa_controller/ubah/$1';
 $route['admin/penyewa/hapus/(:any)'] = 'Manajemen_penyewa_controller/hapus/$1';
+$route['admin/penyewa/foto/(:any)/(:any)'] = 'Manajemen_penyewa_controller/foto/$1/$2';

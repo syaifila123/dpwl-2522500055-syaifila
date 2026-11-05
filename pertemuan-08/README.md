@@ -157,3 +157,26 @@ Mengaktifkan fitur Edit dan Hapus pada halaman Manajemen Penyewa.
 Tombol Edit dan Hapus berhasil ditampilkan dan dihubungkan dengan route Controller.
 
 **Status: Bagian 2 selesai.**
+
+
+### Tahap 6 – Manajemen Data Penyewa
+
+Pada tahap ini dilakukan penyelesaian fitur Manajemen Data Penyewa pada halaman admin.
+
+Fitur yang dibuat meliputi:
+1. Menampilkan seluruh data penyewa.
+2. Menambahkan data penyewa baru.
+3. Mengubah data penyewa dan password.
+4. Menghapus data penyewa.
+5. Upload dan mengganti foto KTP serta SIM A.
+6. Validasi data dan keamanan upload foto.
+7. Menampilkan notifikasi berhasil atau gagal.
+
+**File yang dikerjakan:**
+- `Manajemen_penyewa_controller.php`
+- `Manajemen_penyewa_model.php`
+- `penyewa_view.php`
+- `routes.php`
+- Folder `uploads/penyewa/`
+
+**Hasil:** Fitur Manajemen Data Penyewa telah dilengkapi dengan fungsi CRUD dan pengelolaan foto identitas.
