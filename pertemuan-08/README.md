@@ -35,3 +35,19 @@ Menambahkan menu Manajemen Penyewa pada sidebar Admin agar Admin dapat mengakses
 
 ## Kesimpulan
 Tahap 1 berhasil dilakukan sebagai dasar pengembangan fitur Manajemen Data Penyewa. Selanjutnya, pengerjaan dilanjutkan dengan pembuatan Model Manajemen Penyewa.
+
+# Tahap 2 – Pembuatan Model Manajemen Penyewa
+
+## Tujuan
+Membuat model untuk mengelola dan mengambil data penyewa dari database.
+
+## Pekerjaan yang Dilakukan
+1. Membuat file `Manajemen_penyewa_model.php` pada folder `application/models/`.
+2. Membuat method `getAll()` untuk mengambil seluruh data penyewa.
+3. Membuat method `findByUserPlg()` untuk mencari data penyewa berdasarkan username.
+4. Menggunakan MySQLi Prepared Statements untuk menjalankan query database.
+
+## Hasil
+Model Manajemen Penyewa berhasil dibuat dan siap digunakan oleh Controller pada tahap berikutnya.
+
+**Status: Selesai.**
