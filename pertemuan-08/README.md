@@ -85,3 +85,21 @@ Membuat halaman Manajemen Penyewa untuk menampilkan formulir dan tabel data peny
 Halaman Manajemen Penyewa berhasil ditampilkan dan data penyewa dari database berhasil muncul pada tabel.
 
 **Status: Selesai.**
+
+# Tahap 5 – Implementasi CRUD Manajemen Penyewa
+
+## Tujuan
+Membuat fungsi pengelolaan data penyewa menggunakan Model dan MySQLi Prepared Statements.
+
+## Pekerjaan yang Dilakukan
+1. Menambahkan fungsi `create()` untuk menambah data penyewa.
+2. Mempertahankan fungsi `getAll()` untuk mengambil seluruh data penyewa.
+3. Menambahkan fungsi `update()` untuk mengubah data penyewa.
+4. Menambahkan fungsi `delete()` untuk menghapus data penyewa.
+5. Menambahkan fungsi `updatePassword()` untuk mengubah password penyewa.
+6. Menambahkan fungsi `findByUserPlg()` untuk mencari data berdasarkan username.
+
+## Hasil
+Fungsi CRUD pada Model Manajemen Penyewa berhasil dibuat dan siap dihubungkan dengan Controller.
+
+**Status: Bagian Model selesai, proses CRUD keseluruhan masih berlanjut.**
