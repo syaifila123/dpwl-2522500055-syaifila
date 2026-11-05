@@ -180,3 +180,19 @@ Fitur yang dibuat meliputi:
 - Folder `uploads/penyewa/`
 
 **Hasil:** Fitur Manajemen Data Penyewa telah dilengkapi dengan fungsi CRUD dan pengelolaan foto identitas.
+
+### Tahap 7 – Pengujian Manajemen Data Penyewa
+
+Pada tahap ini dilakukan pengujian fitur Manajemen Data
+Penyewa untuk memastikan seluruh fungsi berjalan dengan baik.
+
+Pengujian meliputi:
+1. Menampilkan data penyewa.
+2. Menambahkan data penyewa.
+3. Mengubah data penyewa.
+4. Menghapus data penyewa.
+5. Menguji validasi dan keamanan.
+6. Menguji upload foto KTP dan SIM A.
+7. Memastikan akses hanya untuk Admin.
+
+**Hasil Pengujian:** [Pengujian berhasil dan sesuai harapan.]
