@@ -68,3 +68,20 @@ Menghubungkan Model Manajemen Penyewa dengan Controller agar data penyewa dapat 
 Controller Manajemen Penyewa berhasil diperbarui dan siap digunakan untuk menampilkan data penyewa.
 
 **Status: Selesai.**
+
+# Tahap 4 – Pembuatan View Manajemen Penyewa
+
+## Tujuan
+Membuat halaman Manajemen Penyewa untuk menampilkan formulir dan tabel data penyewa.
+
+## Pekerjaan yang Dilakukan
+1. Membuat file `penyewa_view.php` pada folder `application/views/admin/`.
+2. Menambahkan formulir input data penyewa.
+3. Menambahkan kolom unggah Foto KTP dan Foto SIM A.
+4. Membuat tabel untuk menampilkan data penyewa dari database.
+5. Menggunakan template AdminLTE yang sudah tersedia.
+
+## Hasil
+Halaman Manajemen Penyewa berhasil ditampilkan dan data penyewa dari database berhasil muncul pada tabel.
+
+**Status: Selesai.**
