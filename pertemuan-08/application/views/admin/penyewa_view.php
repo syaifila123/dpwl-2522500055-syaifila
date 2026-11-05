@@ -31,7 +31,7 @@ $judul = $judul ?? 'Manajemen Data Penyewa';
     <!-- Form Tambah Penyewa -->
     <div class="box box-primary">
       <div class="box-header with-border">
-        <h3 class="box-title">Form Data Penyewa</h3>
+        <h3 class="box-title">Form Tambah Data Penyewa</h3>
       </div>
 
       <form method="POST"
@@ -55,6 +55,7 @@ $judul = $judul ?? 'Manajemen Data Penyewa';
             <input type="password"
               name="sandi"
               class="form-control"
+              minlength="8"
               placeholder="Masukkan password"
               autocomplete="new-password"
               required>
@@ -66,7 +67,8 @@ $judul = $judul ?? 'Manajemen Data Penyewa';
               name="nik"
               class="form-control"
               maxlength="16"
-              placeholder="Masukkan NIK"
+              pattern="[0-9]{16}"
+              placeholder="Masukkan 16 digit NIK"
               required>
           </div>
 
@@ -126,7 +128,7 @@ $judul = $judul ?? 'Manajemen Data Penyewa';
 
         <div class="box-footer">
           <button type="submit" class="btn btn-primary">
-            <i class="fa fa-save"></i> Simpan Penyewa
+            <i class="fa fa-save"></i> Simpan Data
           </button>
         </div>
 
@@ -143,6 +145,7 @@ $judul = $judul ?? 'Manajemen Data Penyewa';
         <div class="table-responsive">
 
           <table class="table table-bordered table-striped js-data-table">
+
             <thead>
               <tr>
                 <th>No</th>
@@ -153,15 +156,18 @@ $judul = $judul ?? 'Manajemen Data Penyewa';
                 <th>Alamat Lengkap</th>
                 <th>Foto KTP</th>
                 <th>Foto SIM A</th>
+                <th>Aksi</th>
               </tr>
             </thead>
 
             <tbody>
+
               <?php if (!empty($penyewa)): ?>
 
                 <?php $no = 1; ?>
 
                 <?php foreach ($penyewa as $p): ?>
+
                   <tr>
                     <td><?= $no++ ?></td>
 
@@ -192,18 +198,36 @@ $judul = $judul ?? 'Manajemen Data Penyewa';
                     <td>
                       <?= htmlspecialchars($p['ft_sim_a'] ?? '-', ENT_QUOTES, 'UTF-8') ?>
                     </td>
+
+                    <!-- Tombol Aksi -->
+                    <td>
+                      <a href="#"
+                        class="btn btn-warning btn-sm"
+                        title="Edit Data">
+                        <i class="fa fa-edit"></i> Edit
+                      </a>
+
+                      <button type="button"
+                        class="btn btn-danger btn-sm"
+                        onclick="alert('Fungsi hapus akan diaktifkan pada bagian berikutnya.')">
+                        <i class="fa fa-trash"></i> Hapus
+                      </button>
+                    </td>
+
                   </tr>
+
                 <?php endforeach; ?>
 
               <?php else: ?>
 
                 <tr>
-                  <td colspan="8" class="text-center">
+                  <td colspan="9" class="text-center">
                     Data penyewa belum tersedia.
                   </td>
                 </tr>
 
               <?php endif; ?>
+
             </tbody>
 
           </table>

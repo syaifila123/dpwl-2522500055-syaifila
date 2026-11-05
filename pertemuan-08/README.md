@@ -121,3 +121,21 @@ Menghubungkan Model Manajemen Penyewa dengan Controller untuk memproses pengelol
 Fungsi Controller untuk proses CRUD Manajemen Penyewa berhasil dibuat dan dihubungkan dengan Model serta Routes.
 
 **Status: Selesai.**
+
+# Tahap 6 – Penyempurnaan View Manajemen Penyewa
+
+## Tujuan
+Menyempurnakan tampilan halaman Manajemen Penyewa agar Admin dapat menginput data penyewa dengan lebih mudah.
+
+## Pekerjaan yang Dilakukan
+1. Memperbarui form tambah data penyewa.
+2. Menambahkan validasi input NIK sebanyak 16 digit.
+3. Menambahkan validasi minimal 8 karakter untuk password.
+4. Mempertahankan input Foto KTP dan Foto SIM A.
+5. Menambahkan kolom Aksi pada tabel data penyewa.
+6. Mempertahankan template AdminLTE.
+
+## Hasil
+Tampilan form dan tabel Manajemen Penyewa berhasil diperbarui.
+
+**Status: Bagian 1 selesai.**
