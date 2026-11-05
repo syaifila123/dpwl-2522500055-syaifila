@@ -196,3 +196,22 @@ Pengujian meliputi:
 7. Memastikan akses hanya untuk Admin.
 
 **Hasil Pengujian:** [Pengujian berhasil dan sesuai harapan.]
+
+## Tahap Akhir – Manajemen Data Penyewa
+
+Menyelesaikan fitur Manajemen Data Penyewa pada halaman Admin.
+
+Fitur yang dibuat:
+1. Menampilkan data penyewa.
+2. Menambahkan data penyewa.
+3. Mengubah data penyewa.
+4. Menghapus data penyewa.
+5. Mengunggah foto KTP dan SIM A.
+6. Validasi data dan keamanan password.
+7. Mengamankan akses halaman Admin dan file foto.
+
+Pengujian:
+- Halaman Admin berhasil dibuka.
+- Data penyewa berhasil ditampilkan.
+- Penambahan data berhasil dilakukan.
+- Pengujian upload dan tampilan foto masih memerlukan pemeriksaan lanjutan.
