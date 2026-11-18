@@ -25,7 +25,10 @@ $pembayaran = $pembayaran ?? [];
 
 <section class="bg-success py-4">
   <div class="container">
-    <h1 class="h2 text-white mt-3">Pembayaran Penyewaan</h1>
+    <h1 class="h2 text-white mt-3">
+      Pembayaran Penyewaan
+    </h1>
+
     <p class="text-white mb-0">
       Informasi pembayaran uang muka dan bukti transfer.
     </p>
@@ -141,10 +144,12 @@ $pembayaran = $pembayaran ?? [];
             <p class="fw-bold">Bukti Transfer:</p>
 
             <a
-              href="<?= $e(site_url(
-                      'pembayaran/bukti/' .
-                        rawurlencode($bayar['kode_bayar'])
-                    )) ?>"
+              href="<?= $e(
+                      site_url(
+                        'pembayaran/bukti?kode_bayar=' .
+                          rawurlencode($bayar['kode_bayar'])
+                      )
+                    ) ?>"
               target="_blank"
               rel="noopener">
               Lihat Bukti Pembayaran

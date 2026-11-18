@@ -62,10 +62,13 @@ class Pembayaran_controller extends Controller
         'pembayaran' => $pembayaran,
         'flash' => $flash,
         'jumlahKeranjang' =>
-        $this->transaksiModel->getJumlahMobilKeranjang($userPlg)
+        $this->transaksiModel
+          ->getJumlahMobilKeranjang($userPlg)
       ]);
     } catch (Throwable $e) {
-      error_log('Halaman pembayaran gagal: ' . $e->getMessage());
+      error_log(
+        'Halaman pembayaran gagal: ' . $e->getMessage()
+      );
 
       http_response_code(500);
       exit('Halaman pembayaran belum dapat ditampilkan.');
@@ -140,7 +143,9 @@ class Pembayaran_controller extends Controller
         $this->hapusFile($namaFile);
       }
 
-      error_log('Upload bukti pembayaran gagal: ' . $e->getMessage());
+      error_log(
+        'Upload bukti pembayaran gagal: ' . $e->getMessage()
+      );
 
       $_SESSION['flash_pembayaran'] = [
         'jenis' => 'danger',
@@ -155,7 +160,7 @@ class Pembayaran_controller extends Controller
   }
 
   // Menampilkan bukti pembayaran milik penyewa
-  public function bukti(string $kodeBayar): void
+  public function bukti(): void
   {
     $userPlg = $this->wajibLogin();
 
@@ -165,6 +170,17 @@ class Pembayaran_controller extends Controller
       exit('Method Not Allowed');
     }
 
+    // Mengambil kode pembayaran dari query string
+    $kodeBayar = trim(
+      (string) ($_GET['kode_bayar'] ?? '')
+    );
+
+    if ($kodeBayar === '') {
+      http_response_code(400);
+      exit('Kode pembayaran tidak valid.');
+    }
+
+    // Memastikan pembayaran milik penyewa yang login
     $data = $this->pembayaranModel
       ->findByKodeBayar($kodeBayar, $userPlg);
 
@@ -190,6 +206,7 @@ class Pembayaran_controller extends Controller
       exit('File bukti pembayaran tidak ditemukan.');
     }
 
+    // Memeriksa format gambar
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $mime = $finfo->file($lokasi);
 
@@ -234,7 +251,10 @@ class Pembayaran_controller extends Controller
       );
     }
 
-    if ($file['size'] <= 0 || $file['size'] > 2 * 1024 * 1024) {
+    if (
+      $file['size'] <= 0 ||
+      $file['size'] > 2 * 1024 * 1024
+    ) {
       throw new InvalidArgumentException(
         'Ukuran bukti pembayaran maksimal 2 MB.'
       );
@@ -296,6 +316,7 @@ class Pembayaran_controller extends Controller
     return $namaFile;
   }
 
+  // Menghapus file jika proses database gagal
   private function hapusFile(string $namaFile): void
   {
     if (
@@ -312,6 +333,7 @@ class Pembayaran_controller extends Controller
     }
   }
 
+  // Menampilkan pesan dan kembali ke halaman pembayaran
   private function redirectDenganPesan(
     string $jenis,
     string $pesan

@@ -50,3 +50,17 @@ Halaman pembayaran penyewa berhasil dibuat.
 - Memperbarui kolom ft_byr dan tgl_wkt_byr pada tabel t_bayar.
 - Memastikan upload tidak membuat data pembayaran DP baru.
 - Mempertahankan status pembayaran pending sampai diverifikasi admin.
+
+## 2.5. Menguji Fitur Pembayaran Penyewa
+- Menguji halaman pembayaran setelah checkout.
+- Memastikan nominal DP ditampilkan dengan benar.
+- Menguji upload bukti pembayaran dengan format yang valid.
+- Menguji penolakan file yang tidak sesuai format atau ukuran.
+- Memeriksa perubahan data pada tabel t_bayar.
+- Memastikan status pembayaran tetap pending setelah upload.
+
+## Hasil Tahap 2
+Fitur pembayaran penyewa telah dikembangkan agar penyewa dapat melihat rincian pembayaran DP dan mengunggah bukti transfer. Data bukti pembayaran disimpan dan diperbarui pada record pembayaran yang sudah tersedia.
+
+## Status
+Tahap 2 selesai setelah seluruh fitur dan pengujian berhasil dilakukan.
