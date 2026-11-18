@@ -47,3 +47,8 @@ $route['admin/penyewa/tambah'] = 'Manajemen_penyewa_controller/tambah';
 $route['admin/penyewa/ubah/(:any)'] = 'Manajemen_penyewa_controller/ubah/$1';
 $route['admin/penyewa/hapus/(:any)'] = 'Manajemen_penyewa_controller/hapus/$1';
 $route['admin/penyewa/foto/(:any)/(:any)'] = 'Manajemen_penyewa_controller/foto/$1/$2';
+
+// Route P9 - Pembayaran Penyewa
+$route['pembayaran'] = 'Pembayaran_controller/index';
+$route['pembayaran/upload'] = 'Pembayaran_controller/upload';
+$route['pembayaran/bukti/(:any)'] = 'Pembayaran_controller/bukti/$1';

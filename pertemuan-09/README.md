@@ -33,13 +33,20 @@ Penyewa dapat melihat informasi pembayaran DP setelah melakukan checkout.
 Halaman pembayaran penyewa berhasil dibuat.
 
 ## 2.2. Menampilkan Rincian Transaksi dan Pembayaran DP
+- Membuat Model untuk mengambil data transaksi dan pembayaran.
+- Menampilkan kode transaksi dan rincian pembayaran.
+- Menampilkan nominal pembayaran DP sebesar 30%.
+- Menampilkan metode dan status pembayaran.
+- Memastikan penyewa hanya dapat melihat pembayaran miliknya sendiri.
 
-Membuat Model untuk mengambil data transaksi dan pembayaran.
+## 2.3. Membuat Formulir Upload Bukti Pembayaran
+- Membuat formulir upload bukti transfer.
+- Menambahkan validasi format file gambar.
+- Membatasi ukuran file maksimal 2 MB.
+- Menambahkan pesan informasi apabila upload berhasil atau gagal.
 
-Menampilkan kode transaksi dan rincian pembayaran.
-
-Menampilkan nominal pembayaran DP sebesar 30%.
-
-Menampilkan metode dan status pembayaran.
-
-Memastikan penyewa hanya dapat melihat pembayaran miliknya sendiri.
+## 2.4. Menyimpan Bukti Pembayaran
+- Menyimpan bukti pembayaran ke direktori uploads/bayar/.
+- Memperbarui kolom ft_byr dan tgl_wkt_byr pada tabel t_bayar.
+- Memastikan upload tidak membuat data pembayaran DP baru.
+- Mempertahankan status pembayaran pending sampai diverifikasi admin.
