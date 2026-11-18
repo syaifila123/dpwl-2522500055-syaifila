@@ -28,3 +28,25 @@ Pengembangan lanjutan Sistem Informasi Penyewaan Kendaraan berbasis PHP 8.4 (Hom
 - **Aturan Perubahan Status Verifikasi**:
   - **Terima Pembayaran**: `t_bayar.sttus_byr` diubah menjadi `valid`, `t_sewa.status_sewa` menjadi `disetujui`, dan `t_bayar.tgl_wkt_ver` mencatat waktu verifikasi.
   - **Tolak Pembayaran**: `t_bayar.sttus_byr` diubah menjadi `invalid`, `t_sewa.status_sewa` menjadi `ditolak`, dan `t_bayar.tgl_wkt_ver` mencatat waktu verifikasi.
+
+  ### Tahap Final: Pengujian End-to-End, Dokumentasi, & Penyelesaian Artefak
+- **Cakupan Pengujian Fungsional**:
+  1. **Alur Penyewa**: Validasi akses berbasis *session* (`$_SESSION['penyewa_user_plg']`), perhitungan DP otomatis sebesar 30% dari total transaksi, unggah bukti transfer dengan validasi ekstensi (`JPG`, `JPEG`, `PNG`, `WEBP`), ukuran maksimal 2 MB, dan tipe MIME (`finfo_file`), serta penerapan pola *Post-Redirect-Get* (PRG).
+  2. **Alur Admin**: Pemeriksaan daftar pembayaran DP pada panel AdminLTE, pratinjau bukti transfer ukuran penuh, serta eksekusi verifikasi atomik menggunakan transaksi MySQLi (`begin_transaction`, `commit`, `rollback`) untuk keputusan **Terima Pembayaran** (`valid` / `disetujui`) dan **Tolak Pembayaran** (`invalid` / `ditolak`).
+- **Ringkasan Tabel Hasil Pengujian**:
+
+| No | Skenario Pengujian | Aktor | Hasil yang Diharapkan | Status |
+|---|---|---|---|---|
+| 1 | Akses halaman pembayaran tanpa login | Tamu | Diarahkan ke halaman login penyewa | Lulus |
+| 2 | Daftar tagihan DP 30% penyewa | Penyewa | Daftar transaksi dan nominal DP 30% tampil akurat | Lulus |
+| 3 | Validasi file bukti (kosong / salah format / > 2 MB) | Penyewa | Sistem menolak unggahan dan menampilkan pesan validasi | Lulus |
+| 4 | Unggah bukti transfer valid & PRG | Penyewa | File tersimpan di `uploads/bayar/`, pratinjau tampil, status `PENDING` | Lulus |
+| 5 | Pembatasan akses URL verifikasi admin | Penyewa | Akses ditolak saat login bukan sebagai admin | Lulus |
+| 6 | Pemeriksaan bukti transfer oleh admin | Admin | Data penyewa, nominal DP, dan gambar bukti tampil jelas | Lulus |
+| 7 | Keputusan Terima Pembayaran | Admin | `sttus_byr` = `valid`, `status_sewa` = `disetujui`, waktu verifikasi tercatat | Lulus |
+| 8 | Keputusan Tolak Pembayaran | Admin | `sttus_byr` = `invalid`, `status_sewa` = `ditolak`, waktu verifikasi tercatat | Lulus |
+| 9 | Penguncian aksi pasca-verifikasi | Penyewa & Admin | Form unggah dan tombol verifikasi terkunci setelah keputusan final | Lulus |
+
+- **Artefak & Struktur Repositori**:
+  - Seluruh kode sumber terintegrasi pada arsitektur *Homemade MVC* PHP 8.4 & MySQLi di dalam folder `pertemuan-09/`.
+  - Bukti tangkapan layar (*screenshot*) hasil pengujian tersimpan pada direktori `pertemuan-09/dokumentasi/`.
