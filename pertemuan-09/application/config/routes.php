@@ -48,12 +48,12 @@ $route['admin/penyewa/ubah/(:any)'] = 'Manajemen_penyewa_controller/ubah/$1';
 $route['admin/penyewa/hapus/(:any)'] = 'Manajemen_penyewa_controller/hapus/$1';
 $route['admin/penyewa/foto/(:any)/(:any)'] = 'Manajemen_penyewa_controller/foto/$1/$2';
 
-// Route P9 - Pembayaran Penyewa
-$route['pembayaran'] = 'Pembayaran_controller/index';
-$route['pembayaran/upload'] = 'Pembayaran_controller/upload';
-$route['pembayaran/bukti'] = 'Pembayaran_controller/bukti';
+// --- Rute Pembayaran Penyewa (P9) ---
+$route['pembayaran']                      = 'Pembayaran_controller/index';
+$route['pembayaran/detail/(:any)']        = 'Pembayaran_controller/detail/$1';
+$route['pembayaran/upload']               = 'Pembayaran_controller/upload';
 
-// Route P9 - Verifikasi Pembayaran Admin
-$route['admin/verifikasi'] = 'Verifikasi_pembayaran_controller/index';
-$route['admin/verifikasi/bukti'] = 'Verifikasi_pembayaran_controller/bukti';
-$route['admin/verifikasi/proses'] = 'Verifikasi_pembayaran_controller/proses';
+// --- Rute Verifikasi Pembayaran Admin (P9) ---
+$route['admin/verifikasi-pembayaran']              = 'Pembayaran_controller/verifikasiIndex';
+$route['admin/verifikasi-pembayaran/detail/(:any)'] = 'Pembayaran_controller/verifikasiDetail/$1';
+$route['admin/verifikasi-pembayaran/proses']       = 'Pembayaran_controller/prosesVerifikasi';
