@@ -16,3 +16,30 @@ Aplikasi P7 telah memiliki fitur keranjang dan checkout. Proses checkout menghas
 
 ### Status
 Analisis source code selesai. Pengembangan fitur pembayaran dilanjutkan pada Tahap 2.
+
+## Tahap 2.1 – Halaman Pembayaran Penyewa
+
+### Perubahan
+- Membuat halaman pembayaran penyewa.
+- Menampilkan informasi transaksi dan pembayaran DP.
+- Menampilkan nominal DP sebesar 30%.
+- Menampilkan status pembayaran.
+- Menambahkan akses menu pembayaran pada navbar.
+
+### Hasil
+Penyewa dapat melihat informasi pembayaran DP setelah melakukan checkout.
+
+### Status
+Halaman pembayaran penyewa berhasil dibuat.
+
+## 2.2. Menampilkan Rincian Transaksi dan Pembayaran DP
+
+Membuat Model untuk mengambil data transaksi dan pembayaran.
+
+Menampilkan kode transaksi dan rincian pembayaran.
+
+Menampilkan nominal pembayaran DP sebesar 30%.
+
+Menampilkan metode dan status pembayaran.
+
+Memastikan penyewa hanya dapat melihat pembayaran miliknya sendiri.
