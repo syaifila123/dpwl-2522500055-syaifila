@@ -1,39 +1,39 @@
 <?php
-
+// Nama Berkas - application\config\routes.php
 $route = [];
+
+// Route P2/P3 - dipertahankan, penyesuaian terhadap penulisan nama Controller.
 // $route['default_controller'] = 'Home'; // dimatikan pada P6 karena penulisan index.php dihilangkan pada URL aplikasi
-$route['default_controller'] = 'Katalog_controller'; // karena penulisan index.php dihilangkan pada URL aplikasi 
-// $route['info/(:any)'] = 'home/info/$1';
-// $route['default_controller'] = 'home';
-// $route['info/(:any)'] = 'home/info/$1';
-// Route autentikasi P3
-$route['login'] = 'auth/login';
-$route['auth/login'] = 'auth/login';
-$route['auth/logout'] = 'auth/logout';
+$route['default_controller'] = 'Katalog_controller'; // karena penulisan index.php dihilangkan pada URL aplikasi
+$route['info/(:any)'] = 'Home/info/$1';
+$route['login'] = 'Auth/login';
+$route['auth/login'] = 'Auth/login';
+$route['auth/logout'] = 'Auth/logout';
+$route['admin'] = 'Admin/index';
 
-// Route halaman administrasi
-$route['admin'] = 'admin/index';
-// P4: BARU - semua proses CRUD admin dipindahkan di bawah /admin/madmin. 
-$route['admin/madmin'] = 'madmin_controller/index';
-$route['admin/madmin/tambah'] = 'madmin_controller/tambah';
-$route['admin/madmin/ubah/(:any)'] = 'madmin_controller/ubah/$1';
-$route['admin/madmin/hapus/(:any)'] = 'madmin_controller/hapus/$1';
+// Route P4: semua proses CRUD admin dipindahkan di URL admin/madmin.
+$route['admin/madmin'] = 'Madmin_controller/index';
+$route['admin/madmin/tambah'] = 'Madmin_controller/tambah';
+$route['admin/madmin/ubah/(:any)'] = 'Madmin_controller/ubah/$1';
+$route['admin/madmin/hapus/(:any)'] = 'Madmin_controller/hapus/$1';
 
-// Route P5 
-// dari href(menu), diproses ke Mobil_controller dengan mengerjakan method index() yang memanggil admin\mobil_view 
+// Route P5
+// dari href(menu), diproses ke Mobil_controller dengan mengerjakan method index() yang memanggil 
+// admin\mobil_view
 $route['admin/mobil'] = 'Mobil_controller/index';
 $route['admin/mobil/tambah'] = 'Mobil_controller/tambah';
 $route['admin/mobil/ubah/(:any)'] = 'Mobil_controller/ubah/$1';
 $route['admin/mobil/hapus/(:any)'] = 'Mobil_controller/hapus/$1';
 
-// Route P6 
+// Route P6
 $route['katalog'] = 'Katalog_controller/index';
 $route['katalog/detail/(:any)'] = 'Katalog_controller/detail/$1';
+$route['auth/register'] = 'Auth/register';
 $route['auth/login-penyewa'] = 'Auth/loginPenyewa';
 $route['auth/logout-penyewa'] = 'Auth/logoutPenyewa';
 $route['penyewa/profil'] = 'Penyewa_controller/profil';
 
-// Route P7 - Transaksi, Keranjang, dan Checkout 
+// Route P7 - Transaksi, Keranjang, dan Checkout
 $route['transaksi/tambah'] = 'Transaksi_controller/tambah';
 $route['transaksi/keranjang'] = 'Transaksi_controller/keranjang';
 $route['transaksi/perbarui-periode'] = 'Transaksi_controller/perbaruiPeriode';
@@ -41,19 +41,11 @@ $route['transaksi/hapus'] = 'Transaksi_controller/hapus';
 $route['transaksi/hapus/(:any)'] = 'Transaksi_controller/hapus/$1';
 $route['transaksi/checkout'] = 'Transaksi_controller/checkout';
 
-// Route P8 - Manajemen Penyewa
-$route['admin/penyewa'] = 'Manajemen_penyewa_controller/index';
-$route['admin/penyewa/tambah'] = 'Manajemen_penyewa_controller/tambah';
-$route['admin/penyewa/ubah/(:any)'] = 'Manajemen_penyewa_controller/ubah/$1';
-$route['admin/penyewa/hapus/(:any)'] = 'Manajemen_penyewa_controller/hapus/$1';
-$route['admin/penyewa/foto/(:any)/(:any)'] = 'Manajemen_penyewa_controller/foto/$1/$2';
+// Route P9 - Pembayaran DP dan verifikasi admin.
+$route['pembayaran'] = 'Pembayaran_controller/index';
+$route['pembayaran/detail/(:any)'] = 'Pembayaran_controller/detail/$1';
+$route['pembayaran/upload/(:any)'] = 'Pembayaran_controller/uploadBukti/$1';
 
-// --- Rute Pembayaran Penyewa (P9) ---
-$route['pembayaran']                      = 'Pembayaran_controller/index';
-$route['pembayaran/detail/(:any)']        = 'Pembayaran_controller/detail/$1';
-$route['pembayaran/upload']               = 'Pembayaran_controller/upload';
-
-// --- Rute Verifikasi Pembayaran Admin (P9) ---
-$route['admin/verifikasi-pembayaran']              = 'Pembayaran_controller/verifikasiIndex';
-$route['admin/verifikasi-pembayaran/detail/(:any)'] = 'Pembayaran_controller/verifikasiDetail/$1';
-$route['admin/verifikasi-pembayaran/proses']       = 'Pembayaran_controller/prosesVerifikasi';
+$route['admin/pembayaran'] = 'Pembayaran_controller/verifikasiIndex';
+$route['admin/pembayaran/verifikasi/(:any)'] = 'Pembayaran_controller/verifikasiDetail/$1';
+$route['admin/pembayaran/proses/(:any)'] = 'Pembayaran_controller/prosesVerifikasi/$1';
