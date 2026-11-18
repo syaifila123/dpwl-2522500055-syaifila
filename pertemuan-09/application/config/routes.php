@@ -52,3 +52,8 @@ $route['admin/penyewa/foto/(:any)/(:any)'] = 'Manajemen_penyewa_controller/foto/
 $route['pembayaran'] = 'Pembayaran_controller/index';
 $route['pembayaran/upload'] = 'Pembayaran_controller/upload';
 $route['pembayaran/bukti'] = 'Pembayaran_controller/bukti';
+
+// Route P9 - Verifikasi Pembayaran Admin
+$route['admin/verifikasi'] = 'Verifikasi_pembayaran_controller/index';
+$route['admin/verifikasi/bukti'] = 'Verifikasi_pembayaran_controller/bukti';
+$route['admin/verifikasi/proses'] = 'Verifikasi_pembayaran_controller/proses';

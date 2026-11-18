@@ -64,3 +64,12 @@ Fitur pembayaran penyewa telah dikembangkan agar penyewa dapat melihat rincian p
 
 ## Status
 Tahap 2 selesai setelah seluruh fitur dan pengujian berhasil dilakukan.
+
+
+### Tahap 3.1 – Halaman Daftar Verifikasi Pembayaran
+
+- Membuat halaman verifikasi pembayaran pada halaman admin.
+- Menampilkan daftar pembayaran penyewa yang berstatus pending.
+- Menampilkan informasi penyewa, transaksi, nominal pembayaran, dan bukti transfer.
+- Menambahkan menu Verifikasi Pembayaran pada sidebar admin.
+- Menghubungkan halaman dengan database melalui Pembayaran_model.
