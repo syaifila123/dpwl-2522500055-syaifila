@@ -5,9 +5,7 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel">
       <div class="pull-left image">
-        <img src="<?= $adminlte_url . 'dist/img/user2-160x160.jpg' ?>" class="img-circle" alt="User
-
-Image">
+        <img src="<?= $adminlte_url . 'dist/img/user2-160x160.jpg' ?>" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         <p>
@@ -17,7 +15,6 @@ Image">
                     ENT_QUOTES,
                     'UTF-8'
                   ) ?></strong>
-
         </p>
         <!-- Status -->
         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -28,10 +25,7 @@ Image">
       <div class="input-group">
         <input type="text" name="q" class="form-control" placeholder="Search...">
         <span class="input-group-btn">
-
-          <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-
-search"></i>
-
+          <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
           </button>
         </span>
       </div>
@@ -60,7 +54,11 @@ search"></i>
           <i class="fa fa-money"></i> <span>Verifikasi Pembayaran</span>
         </a>
       </li>
-
+      <li>
+        <a href="<?= htmlspecialchars(site_url('admin/pembayaran/pelunasan'), ENT_QUOTES, 'UTF-8') ?>">
+          <i class="fa fa-credit-card"></i> <span>Pelunasan Transaksi</span>
+        </a>
+      </li>
     </ul>
     <!-- /.sidebar-menu -->
   </section>

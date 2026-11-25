@@ -49,3 +49,8 @@ $route['pembayaran/upload/(:any)'] = 'Pembayaran_controller/uploadBukti/$1';
 $route['admin/pembayaran'] = 'Pembayaran_controller/verifikasiIndex';
 $route['admin/pembayaran/verifikasi/(:any)'] = 'Pembayaran_controller/verifikasiDetail/$1';
 $route['admin/pembayaran/proses/(:any)'] = 'Pembayaran_controller/prosesVerifikasi/$1';
+
+$route['admin/pembayaran/pelunasan'] = 'Pembayaran_controller/pelunasanIndex';
+$route['admin/pembayaran/pelunasan/proses/(:any)'] = 'Pembayaran_controller/prosesPelunasan/$1';
+$route['admin/pembayaran/dokumen/(:any)'] = 'Pembayaran_controller/dokumenTransaksi/$1';
+$route['admin/pembayaran/pelunasan/(:any)'] = 'Pembayaran_controller/pelunasanDetail/$1';
