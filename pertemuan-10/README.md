@@ -23,12 +23,18 @@
 - **Tahap A (Selesai):** Menyiapkan workspace dan artefak P9, menguji kesiapan seluruh fitur dasar P9, serta menyiapkan dokumentasi awal `README.md` dan repositori Git.
 - **Tahap B (Selesai):** Menyesuaikan struktur basis data dengan menambahkan nilai ENUM `'lunas'` pada kolom `status_sewa` di tabel `t_sewa`.
 - **Tahap C (Selesai):** Mengimplementasikan Model Pelunasan pada `application\models\Pembayaran_model.php` dengan menambahkan 4 *method* baru dan mempertahankan seluruh fitur pembayaran dari P9.
-- **Tahap D (Selesai):** Mengimplementasikan Controller Pelunasan dan Dokumen Transaksi pada `application\controllers\Pembayaran_controller.php` dengan menambahkan 4 *method* baru serta mempertahankan seluruh fungsi pembayaran P9.
+- **Tahap D (Selesai):** Mengimplementasikan Controller Pelunasan dan Dokumen Transaksi pada `application\controllers\Pembayaran_controller.php` dengan menambahkan 4 *method* baru (`pelunasanIndex()`, `pelunasanDetail()`, `prosesPelunasan()`, dan `dokumenTransaksi()`) serta mempertahankan seluruh fungsi pembayaran P9.
+- **Tahap E (Selesai):** Menambahkan *route* pelunasan dan dokumen transaksi pada `application\config\routes.php` serta mengintegrasikan menu **Pelunasan Transaksi** pada sidebar admin `application\views\templates\sidebar.php`.
+- **Tahap F (Selesai):** Membuat antarmuka daftar dan detail pelunasan pada `application\views\admin\pelunasan.php` serta `application\views\admin\pelunasan_detail.php`, dan melakukan pengujian fungsional alur pelunasan.
 
 ## 5. Daftar Berkas yang Ditambahkan atau Diubah
 - `application/models/Pembayaran_model.php` (Diubah — menambahkan *method* `getDaftarPelunasan()`, `getDetailPelunasan()`, `buatKodeBayarPelunasan()`, dan `simpanPelunasan()` tanpa menghapus fitur P9)
 - `application/controllers/Pembayaran_controller.php` (Diubah — menambahkan *method* `pelunasanIndex()`, `pelunasanDetail()`, `prosesPelunasan()`, dan `dokumenTransaksi()` sambil mempertahankan fungsi pembayaran P9)
-- `pertemuan-10/README.md` (Diperbarui dengan dokumentasi progres Tahap A hingga Tahap D)
+- `application/config/routes.php` (Diubah — menambahkan 4 *route* baru untuk fitur pelunasan dan dokumen transaksi tanpa mengubah *route* P9)
+- `application/views/templates/sidebar.php` (Diubah — menambahkan menu navigasi **Pelunasan Transaksi** pada sidebar admin)
+- `application/views/admin/pelunasan.php` (Ditambahkan — halaman daftar transaksi yang dapat diproses pelunasannya)
+- `application/views/admin/pelunasan_detail.php` (Ditambahkan — halaman detail informasi transaksi, rincian kendaraan, riwayat pembayaran, dan formulir pencatatan pelunasan)
+- `pertemuan-10/README.md` (Diperbarui dengan dokumentasi progres Tahap A hingga Tahap F)
 
 ## 6. Perubahan Struktur Basis Data
 - **Basis Data & Tabel:** `db_dpwl_wulan` — Tabel `t_sewa` (Kolom `status_sewa`).
@@ -47,12 +53,28 @@
   - `buatKodeBayarPelunasan()` menghasilkan kode pembayaran berformat `PAY/YYYYMMDD/NN` dengan *named lock* `dpwl_payment_code_sequence` yang sama dengan P9.
   - `simpanPelunasan()` memvalidasi metode bayar (`tunai`/`transfer`), bukti transfer, sisa kewajiban, serta mencegah duplikasi pelunasan secara atomik (`GET_LOCK`, `SELECT ... FOR UPDATE`, `INSERT`, `UPDATE`, `COMMIT`/`ROLLBACK`) dan mengubah status transaksi menjadi `lunas` tanpa mengubah status kendaraan pada `t_mobil`.
 - **Pemeriksaan Awal Tahap D (Controller Pelunasan):**
-  - Penambahan `pelunasanIndex()` (GET) untuk menampilkan daftar transaksi yang masih memiliki kewajiban pelunasan ke View `admin/pelunasan`.
-  - Penambahan `pelunasanDetail()` (GET) untuk mengonversi parameter kode transaksi (`~` menjadi `/`) dan menampilkan detail transaksi beserta sisa kewajiban ke View `admin/pelunasan_detail`.
-  - Penambahan `prosesPelunasan()` (POST) untuk memvalidasi metode `tunai` maupun `transfer` (mengunggah bukti `ft_byr` via `simpanFileBukti()`), memanggil `simpanPelunasan()` pada Model, menghapus bukti baru jika terjadi kegagalan (`hapusBuktiBaru()`), dan menerapkan pola Post-Redirect-Get (`redirectDenganPesan()`).
+  - Penambahan `pelunasanIndex()` (GET) untuk menampilkan daftar transaksi yang masih memiliki kewajiban pelunasan dari `getDaftarPelunasan()` ke View `admin/pelunasan`.
+  - Penambahan `pelunasanDetail()` (GET) untuk memeriksa ketersediaan kode transaksi, mengonversi karakter `~` pada URL menjadi `/`, memanggil `getDetailPelunasan()`, mengembalikan respons `404` jika transaksi tidak ditemukan, serta mengirimkan data ke View `admin/pelunasan_detail`.
+  - Penambahan `prosesPelunasan()` (POST) untuk memvalidasi input metode pembayaran (`tunai` tanpa unggahan bukti, atau `transfer` dengan unggahan bukti `ft_byr` maksimal 5 MB format JPEG/PNG/WEBP melalui helper `simpanFileBukti()`), memanggil `simpanPelunasan()` pada Model, menghapus bukti baru jika terjadi kegagalan (`hapusBuktiBaru()`), mencatat error lewat `error_log()`, dan menerapkan pola Post-Redirect-Get (`redirectDenganPesan()`).
   - Penambahan `dokumenTransaksi()` (GET) untuk menyajikan data transaksi lengkap ke View cetak `admin/dokumen_transaksi`.
-  - Seluruh *method* baru dilindungi oleh `require_admin_login()` dan seluruh fungsi pembayaran P9 (`verifikasiIndex()`, `verifikasiDetail()`, `prosesVerifikasi()`, `index()`, `detail()`, `uploadBukti()`) tetap dipertahankan[cite: 25].
+  - Seluruh *method* baru dibatasi aksesnya hanya untuk admin melalui `require_admin_login()`, sedangkan seluruh fungsi pembayaran P9 (`verifikasiIndex()`, `verifikasiDetail()`, `prosesVerifikasi()`, `index()`, `detail()`, `uploadBukti()`) dan helper pendukung tetap dipertahankan tanpa perubahan.
+- **Pemeriksaan Awal Tahap E (Route dan Navigasi Menu):**
+  - Route daftar pelunasan (`admin/pembayaran/pelunasan`) telah mengarah ke `Pembayaran_controller/pelunasanIndex`.
+  - Route proses pelunasan (`admin/pembayaran/pelunasan/proses/(:any)`) ditempatkan sebelum route umum dan mengarah ke `Pembayaran_controller/prosesPelunasan/$1` dengan pembatasan metode `POST`.
+  - Route dokumen transaksi (`admin/pembayaran/dokumen/(:any)`) telah mengarah ke `Pembayaran_controller/dokumenTransaksi/$1`.
+  - Route detail pelunasan (`admin/pembayaran/pelunasan/(:any)`) telah mengarah ke `Pembayaran_controller/pelunasanDetail/$1`.
+  - Menu **Pelunasan Transaksi** telah terintegrasi pada sidebar admin (`application/views/templates/sidebar.php`) dan mengarah ke URL `admin/pembayaran/pelunasan`, sementara seluruh route P9 tetap berfungsi tanpa benturan.
+- **Pengujian Aktual Tahap F (Tampilan dan Proses Pelunasan):**
+  1. Halaman daftar pelunasan (`admin/pembayaran/pelunasan`) berhasil menampilkan daftar transaksi yang memiliki sisa kewajiban pembayaran — **Berhasil**
+  2. Tautan **Detail / Proses** berhasil mengarahkan ke halaman detail transaksi sesuai kode sewa (`admin/pembayaran/pelunasan/{kode_sewa}`) — **Berhasil**
+  3. Informasi transaksi, identitas penyewa, rincian kendaraan beserta tarif *snapshot*, ringkasan pembayaran, dan riwayat pembayaran ditampilkan dengan akurat — **Berhasil**
+  4. Formulir pencatatan pelunasan menyediakan pilihan metode `Tunai` dan `Transfer` dengan nominal otomatis sebesar sisa kewajiban — **Berhasil**
+  5. Ketika metode `Transfer` dipilih, input unggah bukti transfer (`ft_byr`) muncul secara dinamis dan wajib diisi — **Berhasil**
+  6. Pengiriman formulir menggunakan metode `POST` berhasil mencatat pembayaran pelunasan dengan status `valid` dan memperbarui status transaksi menjadi `lunas` — **Berhasil**
+  7. Transaksi yang telah berstatus `lunas` tidak lagi menampilkan formulir pencatatan pelunasan kembali dan menampilkan pesan bahwa transaksi sudah memiliki record pelunasan — **Berhasil**
+  8. Pesan notifikasi (*flash message*) keberhasilan maupun kegagalan tampil sesuai hasil pemrosesan Controller — **Berhasil**
+  9. Seluruh data teks dari basis data ditampilkan dengan aman menggunakan *escaping* `htmlspecialchars()` dan tidak mengganggu fitur pembayaran P9 — **Berhasil**
 
 ## 8. Kendala, Proses Debugging, dan Perbaikan
-- **Kendala:** Tidak ditemukan kendala saat menambahkan nilai ENUM `'lunas'` pada tabel `t_sewa`, mengimplementasikan Model Pelunasan, maupun menambahkan *method* pada `Pembayaran_controller.php`.
+- **Kendala:** Tidak ditemukan kendala saat menambahkan nilai ENUM `'lunas'` pada tabel `t_sewa`, mengimplementasikan Model dan Controller pelunasan, mengintegrasikan route dan menu navigasi, maupun saat membuat serta menguji halaman View daftar dan detail pelunasan.
 - **Perbaikan:** -
