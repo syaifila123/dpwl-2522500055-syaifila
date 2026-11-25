@@ -26,6 +26,7 @@
 - **Tahap D (Selesai):** Mengimplementasikan Controller Pelunasan dan Dokumen Transaksi pada `application\controllers\Pembayaran_controller.php` dengan menambahkan 4 *method* baru (`pelunasanIndex()`, `pelunasanDetail()`, `prosesPelunasan()`, dan `dokumenTransaksi()`) serta mempertahankan seluruh fungsi pembayaran P9.
 - **Tahap E (Selesai):** Menambahkan *route* pelunasan dan dokumen transaksi pada `application\config\routes.php` serta mengintegrasikan menu **Pelunasan Transaksi** pada sidebar admin `application\views\templates\sidebar.php`.
 - **Tahap F (Selesai):** Membuat antarmuka daftar dan detail pelunasan pada `application\views\admin\pelunasan.php` serta `application\views\admin\pelunasan_detail.php`, dan melakukan pengujian fungsional alur pelunasan.
+- **Tahap G (Selesai):** Membuat dan mengimplementasikan tampilan cetak dokumen transaksi pada `application\views\admin\dokumen_transaksi.php` serta melakukan pengujian tampilan dan cetak/simpan sebagai PDF.
 
 ## 5. Daftar Berkas yang Ditambahkan atau Diubah
 - `application/models/Pembayaran_model.php` (Diubah — menambahkan *method* `getDaftarPelunasan()`, `getDetailPelunasan()`, `buatKodeBayarPelunasan()`, dan `simpanPelunasan()` tanpa menghapus fitur P9)
@@ -34,7 +35,8 @@
 - `application/views/templates/sidebar.php` (Diubah — menambahkan menu navigasi **Pelunasan Transaksi** pada sidebar admin)
 - `application/views/admin/pelunasan.php` (Ditambahkan — halaman daftar transaksi yang dapat diproses pelunasannya)
 - `application/views/admin/pelunasan_detail.php` (Ditambahkan — halaman detail informasi transaksi, rincian kendaraan, riwayat pembayaran, dan formulir pencatatan pelunasan)
-- `pertemuan-10/README.md` (Diperbarui dengan dokumentasi progres Tahap A hingga Tahap F)
+- `application/views/admin/dokumen_transaksi.php` (Ditambahkan — halaman cetak dokumen transaksi sewa kendaraan dan riwayat pembayaran siap simpan PDF)
+- `pertemuan-10/README.md` (Diperbarui dengan dokumentasi lengkap progres Tahap A hingga Tahap G)
 
 ## 6. Perubahan Struktur Basis Data
 - **Basis Data & Tabel:** `db_dpwl_wulan` — Tabel `t_sewa` (Kolom `status_sewa`).
@@ -74,7 +76,20 @@
   7. Transaksi yang telah berstatus `lunas` tidak lagi menampilkan formulir pencatatan pelunasan kembali dan menampilkan pesan bahwa transaksi sudah memiliki record pelunasan — **Berhasil**
   8. Pesan notifikasi (*flash message*) keberhasilan maupun kegagalan tampil sesuai hasil pemrosesan Controller — **Berhasil**
   9. Seluruh data teks dari basis data ditampilkan dengan aman menggunakan *escaping* `htmlspecialchars()` dan tidak mengganggu fitur pembayaran P9 — **Berhasil**
+- **Pengujian Aktual Tahap G (Tampilan dan Cetak Dokumen Transaksi):**
+  1. Login sebagai admin berhasil dilakukan — **Berfungsi normal**
+  2. Membuka detail transaksi yang telah berstatus `lunas` menampilkan informasi transaksi lengkap — **Berfungsi normal**
+  3. Tautan **Lihat / Cetak Dokumen Transaksi** membuka halaman dokumen transaksi pada tab baru — **Berfungsi normal**
+  4. Halaman dokumen transaksi (`admin/pembayaran/dokumen/{kode_sewa}`) berhasil ditampilkan — **Berfungsi normal**
+  5. Kode transaksi dan status transaksi (`lunas`) ditampilkan sesuai data — **Berfungsi normal**
+  6. Identitas penyewa (nama lengkap, username, NIK, nomor telepon, alamat) ditampilkan dengan lengkap dan aman (*escaped*) — **Berfungsi normal**
+  7. Seluruh rincian kendaraan (nomor polisi, nama kendaraan, tarif *snapshot*/hari, lama sewa, subtotal) ditampilkan dengan akurat — **Berfungsi normal**
+  8. Riwayat pembayaran (pembayaran DP dan pembayaran pelunasan) ditampilkan dengan lengkap — **Berfungsi normal**
+  9. Total transaksi, total pembayaran valid, dan sisa kewajiban (`Rp 0`) sesuai dengan data pada basis data — **Berfungsi normal**
+  10. Tombol **Cetak / Simpan sebagai PDF** memicu dialog cetak peramban (`window.print()`) — **Berfungsi normal**
+  11. Pratinjau cetak (*Print Preview*) tampil bersih dan dokumen dapat disimpan sebagai berkas PDF — **Berfungsi normal**
+  12. Tata letak hasil cetak tersusun rapi pada ukuran kertas A4 dengan tombol aksi tersembunyi (`@media print`) sehingga informasi tidak terpotong — **Berfungsi normal**
 
 ## 8. Kendala, Proses Debugging, dan Perbaikan
-- **Kendala:** Tidak ditemukan kendala saat menambahkan nilai ENUM `'lunas'` pada tabel `t_sewa`, mengimplementasikan Model dan Controller pelunasan, mengintegrasikan route dan menu navigasi, maupun saat membuat serta menguji halaman View daftar dan detail pelunasan.
-- **Perbaikan:** -
+- **Kendala:** Sempat muncul pesan `"View tidak ditemukan."` saat mengakses halaman dokumen transaksi (`admin/pembayaran/dokumen/INV~20261119~01`).
+- **Proses Debugging & Perbaikan:** Memeriksa penempatan dan penamaan berkas View di dalam direktori workspace `dpwl-2522500055\application\views\admin\dokumen_transaksi.php` serta memperbaiki *typo* sintaks hasil salin-tempel dari PDF modul sehingga halaman dokumen transaksi dapat dimuat dan dicetak dengan normal.
