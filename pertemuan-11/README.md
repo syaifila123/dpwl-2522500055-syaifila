@@ -131,3 +131,70 @@ mempertahankan route dan menu yang telah digunakan pada pertemuan sebelumnya.
  
 Pengujian fungsional melalui peramban dilanjutkan setelah implementasi View dan integrasi MVC 
 selesai.
+
+### F.1. Membuat View Daftar Serah Terima 
+ 
+Berkas `application/views/admin/serah_terima.php` dibuat untuk menampilkan daftar transaksi yang 
+siap diserahterimakan. Informasi yang ditampilkan meliputi kode transaksi, identitas penyewa, nomor 
+HP, tanggal dan waktu pengambilan, jumlah kendaraan, ketersediaan dokumen KTP dan SIM A, serta 
+status transaksi. 
+ 
+View menerima data `$daftarSerahTerima` dan pesan `$flash` dari `SerahTerima_controller`. Setiap 
+transaksi menyediakan tautan menuju halaman detail berdasarkan kode transaksi. Pengamanan output 
+diterapkan menggunakan `htmlspecialchars()`. 
+
+### F.2. Membuat View Detail Serah Terima 
+ 
+Berkas `application/views/admin/serah_terima_detail.php` dibuat untuk menampilkan detail transaksi 
+dan menyediakan formulir konfirmasi serah terima. Informasi yang ditampilkan meliputi identitas 
+penyewa, periode sewa, pembayaran DP, seluruh kendaraan, serta dokumen KTP dan SIM A. 
+ 
+Formulir menggunakan metode POST dan `multipart/form-data` untuk mendukung unggah atau penggantian 
+dokumen penyewa. Dokumen yang belum tersedia wajib diunggah, sedangkan penggantian dokumen yang 
+sudah tersedia bersifat opsional. 
+ 
+View menampilkan kondisi transaksi dan formulir berdasarkan data yang diterima dari Controller. 
+Validasi akhir persyaratan serah terima tetap dilakukan oleh Model. Pengamanan output diterapkan 
+menggunakan `htmlspecialchars()`.
+
+### F.3. Pemeriksaan Tampilan dan Integrasi Formulir 
+Pemeriksaan dilakukan terhadap kesesuaian data yang dikirim Controller dengan variabel yang 
+digunakan oleh kedua View. Halaman daftar diperiksa untuk memastikan informasi transaksi dan tautan 
+detail ditampilkan dengan benar. Halaman detail diperiksa untuk memastikan informasi penyewa, 
+pembayaran DP, kendaraan, dokumen KTP dan SIM A, serta formulir konfirmasi serah terima ditampilkan 
+sesuai kondisi data. 
+Formulir diperiksa untuk memastikan penggunaan metode POST dan `multipart/form-data`, serta 
+ketentuan unggah dokumen wajib dan opsional.
+
+### F.4. Menampilkan Seluruh Kendaraan Transaksi 
+View detail menampilkan seluruh kendaraan yang terkait dengan satu kode transaksi. Informasi 
+kendaraan meliputi nomor polisi, nama kendaraan, tarif snapshot per hari, lama sewa, dan status 
+kendaraan. Seluruh kendaraan dalam satu transaksi diserahterimakan secara bersamaan kepada penyewa 
+yang tercatat pada transaksi. 
+View hanya menampilkan status kendaraan. Perubahan status kendaraan tidak dilakukan pada proses 
+serah terima P11. 
+
+### F.5. Menampilkan dan Mengelola Dokumen Penyewa 
+View detail menampilkan ketersediaan dokumen KTP dan SIM A beserta tautan untuk melihat dokumen yang 
+telah tersimpan pada direktori `uploads/penyewa/`. Formulir menyediakan input unggah dokumen. 
+Dokumen yang belum tersedia wajib diunggah, sedangkan dokumen yang sudah tersedia dapat diganti 
+secara opsional. 
+Petunjuk pada formulir mencantumkan format JPEG, PNG, dan WEBP dengan ukuran maksimal 5 MB. Validasi 
+berkas dilakukan oleh Controller. 
+
+### F.6. Formulir Konfirmasi Serah Terima 
+Formulir konfirmasi dikirim menggunakan metode POST ke route proses serah terima berdasarkan kode 
+transaksi. Formulir mendukung unggah dokumen melalui `multipart/form-data` dan menyediakan 
+konfirmasi sebelum permintaan dikirimkan. 
+Admin harus memastikan seluruh kendaraan, kunci, dan dokumen pendukung telah diserahkan secara fisik 
+kepada penyewa. Setelah proses berhasil, Model mencatat waktu aktual pengambilan pada `wkt_ambil` 
+dan mengubah status transaksi menjadi `aktif`. Transaksi yang sudah aktif tidak dapat diproses 
+kembali. 
+
+### Pengujian Integrasi View Serah Terima 
+Pengujian dilakukan melalui browser untuk memastikan halaman daftar dan detail serah terima 
+kendaraan terintegrasi dengan Controller, Model, route, dan menu aplikasi. 
+Hasil pengujian: - Menu Serah Terima: [hasil pengujian]. - Halaman daftar transaksi: [hasil pengujian]. - Halaman detail transaksi: [hasil pengujian]. - Informasi penyewa, pembayaran, dan kendaraan: [hasil pengujian]. - Informasi dokumen KTP dan SIM A: [hasil pengujian]. - Tampilan form serah terima: [hasil pengujian]. - Pencegahan pemrosesan ulang: [hasil pengujian]. - Pesan notifikasi: [hasil pengujian]. 
+Catatan atau kendala pengujian: 
+[Tuliskan kendala jika ditemukan, atau nyatakan tidak ada kendala berdasarkan hasil pengujian 
+aktual.]
